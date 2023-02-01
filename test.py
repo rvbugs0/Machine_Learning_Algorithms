@@ -11,16 +11,24 @@ from LinearRegression import LinearRegression as LR
 plt.rcParams['figure.figsize'] = (12.0, 9.0)
 X = np.array([i for i in range(1,101)])
 X = np.reshape(X,[100,1])
-Y = np.array([i*0.1*(random.randint(-1,1))*(random.randint(-5,5)) +2   for i in range(1,101)])
-# print(Y)
-X = np.reshape(Y,[100,1])
-# plt.scatter(X, Y)
-# plt.show()
 
-lr = LR()
-lr.fit(X,Y)
-lr.predict(X)
-lr.score(X,Y)
+print(X)
+
+upperbound = int(X.size * 0.8)
+print(X[:upperbound])
+
+
+
+# Y = np.array([i*0.1*(random.randint(-1,1))*(random.randint(-5,5)) +2   for i in range(1,101)])
+# # print(Y)
+# X = np.reshape(Y,[100,1])
+# # plt.scatter(X, Y)
+# # plt.show()
+
+# lr = LR()
+# lr.fit(X,Y)
+# lr.predict(X)
+# lr.score(X,Y)
 
 
 

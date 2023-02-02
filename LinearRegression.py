@@ -3,16 +3,15 @@ import random
 
 
 class LinearRegression:
-    def __init__(self, batch_size=32, regularization=0, max_epochs=100, patience=3):
+    def __init__(self, batch_size=32, regularization=0, max_epochs=100, patience=3, learning_rate = 0.0001,bias=1):
         self.batch_size = batch_size
         self.regularization = regularization
         self.max_epochs = max_epochs
         self.patience = patience
-
-        self.learning_rate = 0.0009
-        
+        self.learning_rate = learning_rate
+        self.bias = bias        
         self.weights = None
-        self.bias = None
+
 
 
     def fit(self, X_DATA, Y_DATA,batch_size=None, regularization=None, max_epochs=None, patience=None):
@@ -37,8 +36,8 @@ class LinearRegression:
         validation_x = (X_DATA[upperbound:])
         validation_y = (Y_DATA[upperbound:])
 
-
-        column_of_ones = np.ones((X.shape[0],1))
+        
+        column_of_ones = self.bias* np.ones((X.shape[0],1))
         np.concatenate((column_of_ones, X), axis=1)
 
         n, d = X.shape
@@ -51,7 +50,7 @@ class LinearRegression:
         wait = 0
         for epoch in range(self.max_epochs):
 
-            print("Running epoch:",epoch+1)
+            print("Running epoch:",epoch+1,"/",self.max_epochs)
             # Shuffle the data
             indices = np.arange(n)
             np.random.shuffle(indices)
@@ -81,7 +80,7 @@ class LinearRegression:
 
             # Compute the validation loss
             validation_loss = np.mean((validation_y - (np.dot(validation_x,self.weights))) ** 2)
-
+            # print("Validation loss:",validation_loss)
             # Early stopping
             if validation_loss < best_validation_loss:
                 best_validation_loss = validation_loss
@@ -127,7 +126,10 @@ class LinearRegression:
 if __name__ == "__main__":
     X = np.array([i for i in range(1,101)])
     X = np.reshape(X,[100,1])
+    
     Y = np.array([i*0.1*(random.randint(-1,1))*(random.randint(-5,5)) +2   for i in range(1,101)])
+    
+
     X = np.reshape(Y,[100,1])
     lr = LinearRegression()
     lr.fit(X,Y)

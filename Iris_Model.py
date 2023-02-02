@@ -24,9 +24,8 @@ testing_set_indices = indices[upperbound:]
 
 
 
-
 # combination-1 : Predicting the petal width given petal length and sepal width 
-model1 = LinearRegression(learning_rate=0.005)
+model1 = LinearRegression(learning_rate=0.0005,patience=100)
 
 sepal_width_training = np.copy(sepal_width)[training_set_indices]
 petal_length_training = np.copy(petal_length)[training_set_indices]
@@ -49,7 +48,7 @@ model1.predict(X_test_input)
 print("\n\n###############################################################################################\n\n")
 
 # combination-2 : Predicting the petal width given petal length 
-model2 = LinearRegression(learning_rate=0.005)
+model2 = LinearRegression(learning_rate=0.0005,patience=100)
 
 # sepal_width_training = np.copy(sepal_width)[training_set_indices]
 petal_length_training = np.copy(petal_length)[training_set_indices]
@@ -73,7 +72,7 @@ model2.predict(X_test_input)
 print("\n\n###############################################################################################\n\n")
 
 # combination-3 : Predicting the petal width given petal length, sepal length and sepal width 
-model3 = LinearRegression(learning_rate=0.0001,patience=100)
+model3 = LinearRegression(learning_rate=0.0005,patience=100)
 
 sepal_width_training = np.copy(sepal_width)[training_set_indices]
 petal_length_training = np.copy(petal_length)[training_set_indices]
@@ -103,5 +102,33 @@ model3.score(X_test_input,Y_test_input)
 print("\nModel-3 Target Values:",Y_test_input)
 
 model3.predict(X_test_input)
+
+
+
+print("\n\n###############################################################################################\n\n")
+
+# combination-4: Predicting the sepal width given sepal length
+model4 = LinearRegression(learning_rate=0.0005,patience=100)
+
+sepal_length_training = sepal_length[training_set_indices]
+
+X_input = sepal_length_training
+Y_input = np.squeeze(np.copy(sepal_width)[training_set_indices])
+
+# fitting model-4
+model4.fit(X_input,Y_input)
+
+
+sepal_length_testing = np.copy(sepal_length)[testing_set_indices]
+
+
+X_test_input = sepal_length_testing
+Y_test_input = np.squeeze(sepal_width[testing_set_indices])
+
+model4.score(X_test_input,Y_test_input)
+
+print("\nModel-4 Target Values:",Y_test_input)
+
+model4.predict(X_test_input)
 
 

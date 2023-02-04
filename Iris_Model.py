@@ -53,7 +53,9 @@ plt.show()
 
 print("\n\n###############################################################################################\n\n")
 
-# combination-2 : Predicting the petal width given petal length 
+
+print("combination-2 : Predicting the petal width given petal length")
+
 model2 = LinearRegression(learning_rate=0.0005,patience=100)
 
 # sepal_width_training = np.copy(sepal_width)[training_set_indices]
@@ -80,6 +82,23 @@ plt.show()
 
 
 print("\n\n###############################################################################################\n\n")
+
+
+# combination-2-modified : Adding regularization 
+print("Model-2: Regularization added")
+model2 = LinearRegression(learning_rate=0.0005,regularization=0.1,patience=100)
+# fitting model-2
+model2.fit(X_input,Y_input)
+model2.score(X_test_input,Y_test_input)
+print("\nTarget Values:",Y_test_input)
+model2.predict(X_test_input)
+x_plot = model2.batch_validation_loss[:,0]
+y_plot = model2.batch_validation_loss[:,1]
+plt.scatter(x_plot, y_plot)
+plt.show()
+
+print("\n\n###############################################################################################\n\n")
+
 
 # combination-3 : Predicting the petal width given petal length, sepal length and sepal width 
 model3 = LinearRegression(learning_rate=0.0005,patience=100)

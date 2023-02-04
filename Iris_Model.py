@@ -1,6 +1,8 @@
 from sklearn.datasets import load_iris
 import numpy as np
 from LinearRegression import LinearRegression
+import matplotlib.pyplot as plt
+plt.rcParams['figure.figsize'] = (8.0, 6.0)
 
 iris = load_iris()
 iris_data = iris["data"]
@@ -44,6 +46,10 @@ model1.score(X_test_input,Y_test_input)
 print("\nTarget Values:",Y_test_input)
 model1.predict(X_test_input)
 
+x_plot = model1.batch_validation_loss[:,0]
+y_plot = model1.batch_validation_loss[:,1]
+plt.scatter(x_plot, y_plot)
+plt.show()
 
 print("\n\n###############################################################################################\n\n")
 
@@ -67,6 +73,10 @@ model2.score(X_test_input,Y_test_input)
 print("\nModel-2 Target Values:",Y_test_input)
 
 model2.predict(X_test_input)
+x_plot = model2.batch_validation_loss[:,0]
+y_plot = model2.batch_validation_loss[:,1]
+plt.scatter(x_plot, y_plot)
+plt.show()
 
 
 print("\n\n###############################################################################################\n\n")
@@ -102,6 +112,10 @@ model3.score(X_test_input,Y_test_input)
 print("\nModel-3 Target Values:",Y_test_input)
 
 model3.predict(X_test_input)
+x_plot = model3.batch_validation_loss[:,0]
+y_plot = model3.batch_validation_loss[:,1]
+plt.scatter(x_plot, y_plot)
+plt.show()
 
 
 
@@ -131,4 +145,8 @@ print("\nModel-4 Target Values:",Y_test_input)
 
 model4.predict(X_test_input)
 
+x_plot = model4.batch_validation_loss[:,0]
+y_plot = model4.batch_validation_loss[:,1]
+plt.scatter(x_plot, y_plot)
+plt.show()
 

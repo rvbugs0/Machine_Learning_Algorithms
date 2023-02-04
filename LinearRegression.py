@@ -11,6 +11,7 @@ class LinearRegression:
         self.learning_rate = learning_rate
         self.bias = bias        
         self.weights = None
+        self.batch_validation_loss = np.array([[0,0]])
 
 
 
@@ -73,8 +74,12 @@ class LinearRegression:
                 # Update the weights
                 self.weights -= self.learning_rate * grad_weights
 
-                # validation_loss = np.mean((y_batch - (np.dot(X_batch,self.weights))) ** 2)
+                batch_loss = np.mean((y_batch - (np.dot(X_batch,self.weights))) ** 2)
                 # print("Validation loss:",validation_loss)
+                tup = [[len(self.batch_validation_loss),batch_loss]]
+                
+                
+                self.batch_validation_loss = np.append(self.batch_validation_loss,tup,axis=0)
 
 
 
@@ -89,6 +94,7 @@ class LinearRegression:
                 wait += 1
                 if wait >= self.patience:
                     break
+        self.batch_validation_loss = np.delete(self.batch_validation_loss,(0),axis=0)    
 
 
 

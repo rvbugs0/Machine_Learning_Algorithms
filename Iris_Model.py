@@ -24,22 +24,24 @@ upperbound = int(n * 0.9)
 training_set_indices = indices[:upperbound]
 testing_set_indices = indices[upperbound:]
 
+patience_for_all = 3
 
+print("\n\nCombination-1 : Predicting the petal width given petal length and sepal width")
+model1 = LinearRegression(learning_rate=0.0005,patience=patience_for_all)
 
-# combination-1 : Predicting the petal width given petal length and sepal width 
-model1 = LinearRegression(learning_rate=0.0005,patience=100)
-
-sepal_width_training = np.copy(sepal_width)[training_set_indices]
-petal_length_training = np.copy(petal_length)[training_set_indices]
+sepal_width_training = sepal_width[training_set_indices]
+petal_length_training = petal_length[training_set_indices]
 
 X_input = np.concatenate((sepal_width_training,petal_length_training),axis=1)
 Y_input = np.squeeze(np.copy(petal_width)[training_set_indices])
 
+
 # fitting model-1
 model1.fit(X_input,Y_input)
 
-X_test_input = np.concatenate((np.copy(sepal_width[testing_set_indices]),np.copy(petal_length[testing_set_indices])),axis=1)
+X_test_input = np.concatenate((sepal_width[testing_set_indices],petal_length[testing_set_indices]),axis=1)
 Y_test_input = np.squeeze(np.copy(petal_width[testing_set_indices]))
+
 
 model1.score(X_test_input,Y_test_input)
 
@@ -54,9 +56,9 @@ plt.show()
 print("\n\n###############################################################################################\n\n")
 
 
-print("combination-2 : Predicting the petal width given petal length")
+print("Combination-2 : Predicting the petal width given petal length:")
 
-model2 = LinearRegression(learning_rate=0.0005,patience=100)
+model2 = LinearRegression(learning_rate=0.0005,patience=patience_for_all)
 
 # sepal_width_training = np.copy(sepal_width)[training_set_indices]
 petal_length_training = np.copy(petal_length)[training_set_indices]
@@ -84,9 +86,9 @@ plt.show()
 print("\n\n###############################################################################################\n\n")
 
 
-# combination-2-modified : Adding regularization 
+print("Combination-2-modified : Adding regularization")
 print("Model-2: Regularization added")
-model2 = LinearRegression(learning_rate=0.0005,regularization=0.1,patience=100)
+model2 = LinearRegression(learning_rate=0.0005,regularization=0.1,patience=patience_for_all)
 # fitting model-2
 model2.fit(X_input,Y_input)
 model2.score(X_test_input,Y_test_input)
@@ -100,8 +102,8 @@ plt.show()
 print("\n\n###############################################################################################\n\n")
 
 
-# combination-3 : Predicting the petal width given petal length, sepal length and sepal width 
-model3 = LinearRegression(learning_rate=0.0005,patience=100)
+print("Combination-3 : Predicting the petal width given petal length, sepal length and sepal width:") 
+model3 = LinearRegression(learning_rate=0.0005,patience=patience_for_all)
 
 sepal_width_training = np.copy(sepal_width)[training_set_indices]
 petal_length_training = np.copy(petal_length)[training_set_indices]
@@ -140,8 +142,8 @@ plt.show()
 
 print("\n\n###############################################################################################\n\n")
 
-# combination-4: Predicting the sepal width given sepal length
-model4 = LinearRegression(learning_rate=0.0005,patience=100)
+print("Combination-4: Predicting the sepal width given sepal length")
+model4 = LinearRegression(learning_rate=0.0005,patience=patience_for_all)
 
 sepal_length_training = sepal_length[training_set_indices]
 

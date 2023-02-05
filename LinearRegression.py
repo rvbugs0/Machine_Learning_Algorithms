@@ -27,23 +27,19 @@ class LinearRegression:
             self.patience = patience
 
         # setting aside 10% of data for validation set
-        upperbound = int(X_DATA.size * 0.9)
-        X = np.copy(X_DATA)
-        X = X[:upperbound]
+        upperbound = int(X_DATA.shape[0] * 0.9)
+        X = np.copy(X_DATA)[:upperbound]
+        y = np.copy(Y_DATA)[:upperbound]
 
-        y = np.copy(Y_DATA)
-        y = y[:upperbound]
-
-        validation_x = (X_DATA[upperbound:])
-        validation_y = (Y_DATA[upperbound:])
-
+        validation_x = X_DATA[upperbound:]
+        validation_y = Y_DATA[upperbound:]
         
         column_of_ones = self.bias* np.ones((X.shape[0],1))
         np.concatenate((column_of_ones, X), axis=1)
 
         n, d = X.shape
         # n = no of data points
-        # d  = no of features
+        # d  = no of features + 1 (for bias)
 
         self.weights = np.zeros(d)
 
@@ -58,12 +54,14 @@ class LinearRegression:
             X = X[indices]
             y = y[indices]
 
+
             # Split into batches
             for i in range(0, n, self.batch_size):
                 X_batch = X[i:i + self.batch_size]
                 
                 y_batch = y[i:i + self.batch_size]
                 
+
                 # Compute the prediction
                 y_pred = np.dot(X_batch,self.weights)
                 

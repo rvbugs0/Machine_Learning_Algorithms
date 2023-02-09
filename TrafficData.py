@@ -1,7 +1,15 @@
 import numpy as np
 import pandas as pd
 import scipy.io as sio
-import LinearRegression
+from LinearRegression import LinearRegression
+import math
+import matplotlib.pyplot as plt
+plt.rcParams['figure.figsize'] = (8.0, 6.0)
+plt.legend(labels=["Validation MSE","Entries trained"])
+
+
+import warnings
+warnings.filterwarnings("ignore")
 
 
 data_path = "data/traffic_dataset.mat"
@@ -32,10 +40,68 @@ for i in range(input_test.shape[0]):
 data = np.array(data)
 test_data = np.array(test_data)
 
-print(data.T.shape)
-print(output_train.shape)
+
+print("---------------- Prepairing training set -----------------")
 
 
-model = LinearRegression()
+train_X = pd.DataFrame()
+for i in range(data.shape[0]):
+    train_X=train_X.append(pd.DataFrame(data[i]))
 
-model.fit()
+locNames = ["Loc"+str(i) for i in range(1,37)]
+train_X.insert(0,'LocName',locNames*data.shape[0])
+
+train_Y = list(output_train[0])
+for i in range(1,output_train.shape[0]):
+    train_Y.extend(list(output_train[i]))
+train_X.insert(0,'Target',train_Y)
+
+new_train_X = pd.DataFrame()
+for i in locNames:
+    new_train_X=new_train_X.append(train_X[train_X['LocName']==i])
+
+del train_X
+del train_Y
+train_X , train_Y = new_train_X.drop(['Target'],axis=1), new_train_X[['Target']]
+
+
+print("---------------- Prepairing testing set -----------------")
+
+
+test_X = pd.DataFrame()
+for i in range(test_data.shape[0]):
+    test_X=test_X.append(pd.DataFrame(test_data[i]))
+locNames = ["Loc"+str(i) for i in range(1,37)]
+test_X.insert(0,'LocName',locNames*test_data.shape[0])
+
+test_Y = list(output_test[0])
+for i in range(1,output_test.shape[0]):
+    test_Y.extend(list(output_test[i]))
+test_X.insert(0,'Target',test_Y)
+
+new_test_X = pd.DataFrame()
+for i in locNames:
+    new_test_X=new_test_X.append(test_X[test_X['LocName']==i])
+
+del test_X
+del test_Y
+test_X , test_Y = new_test_X.drop(['Target'],axis=1), new_test_X[['Target']]
+
+
+print("---------------- Initiating model -----------------")
+
+l = LinearRegression()
+l.fit(train_X.drop(['LocName'],axis=1),train_Y['Target'])
+l.predict(test_X.drop(['LocName'],axis=1))
+test_mse = l.score(test_X.drop(['LocName'],axis=1),test_Y['Target'])
+print("\nScore methode RMSE= ",math.sqrt(test_mse))
+
+
+x_plot = l.batch_validation_loss[:,0]
+y_plot = l.batch_validation_loss[:,1]
+plt.scatter(x_plot, y_plot)
+plt.show()
+
+
+
+

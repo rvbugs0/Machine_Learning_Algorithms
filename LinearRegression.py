@@ -3,7 +3,16 @@ import random
 
 
 class LinearRegression:
-    def __init__(self, batch_size=32, regularization=0, max_epochs=100, patience=3, learning_rate = 0.0001,bias=1):
+
+
+    def addColOfOnes(self, m,bias=1):
+        col = bias* np.ones((m.shape[0],1))
+        return np.concatenate((m,col),axis=1)
+
+
+
+
+    def __init__(self, batch_size=32, regularization=0, max_epochs=100, patience=3, learning_rate = 0.001,bias=1):
         self.batch_size = batch_size
         self.regularization = regularization
         self.max_epochs = max_epochs
@@ -40,8 +49,10 @@ class LinearRegression:
         validation_x = X_DATA[upperbound:]
         validation_y = Y_DATA[upperbound:]
         
-        column_of_ones = self.bias* np.ones((X.shape[0],1))
-        np.concatenate((column_of_ones, X), axis=1)
+
+        X= self.addColOfOnes(X,self.bias)
+
+        validation_x = self.addColOfOnes(validation_x)
 
         n, d = X.shape
         # n = no of data points
@@ -100,7 +111,7 @@ class LinearRegression:
                     break
         self.batch_validation_loss = np.delete(self.batch_validation_loss,(0),axis=0)    
 
-        print(self.weights)
+        print("\nWeights and Bias: ",self.weights,"\n\n")
 
 
 
@@ -112,11 +123,12 @@ class LinearRegression:
         X: numpy.ndarray
             The input data.
         """
+        
+        
 
-        Y = np.dot(X,self.weights)
-        print("\nPredicitions: ",Y)
+        Y = np.dot(self.addColOfOnes(X),self.weights)
         return Y
-
+        
 
     def score(self, X, y):
         """Evaluate the linear model using the mean squared error.
@@ -130,18 +142,15 @@ class LinearRegression:
         """
         # TODO: Implement the scoring function.
         
-        validation_loss = np.mean((y - (np.dot(X,self.weights))) ** 2)
-        print("Score: Final validation Loss:",validation_loss)
+        validation_loss = np.mean((y - (np.dot(self.addColOfOnes(X),self.weights))) ** 2)
+        print("Score: Final validation Loss:",validation_loss,"\n")
         return validation_loss
 
 
 if __name__ == "__main__":
     X = np.array([i for i in range(1,101)])
     X = np.reshape(X,[100,1])
-    
     Y = np.array([i*0.1*(random.randint(-1,1))*(random.randint(-5,5)) +2   for i in range(1,101)])
-    
-
     X = np.reshape(Y,[100,1])
     lr = LinearRegression()
     lr.fit(X,Y)

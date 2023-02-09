@@ -13,7 +13,13 @@ class LinearRegression:
         self.weights = None
         self.batch_validation_loss = np.array([[0,0]])
 
-
+    # def nfit(self, X_DATA, Y_DATA,batch_size=None, regularization=None, max_epochs=None, patience=None):
+    #     x_transpose= X_DATA.T
+    #     theta = np.dot(X_DATA,x_transpose)
+    #     theta = np.linalg.inv(theta)
+    #     theta = np.dot(theta,x_transpose)
+    #     theta = np.dot(theta,Y_DATA)
+    #     print(theta)
 
     def fit(self, X_DATA, Y_DATA,batch_size=None, regularization=None, max_epochs=None, patience=None):
         
@@ -93,6 +99,8 @@ class LinearRegression:
                 if wait >= self.patience:
                     break
         self.batch_validation_loss = np.delete(self.batch_validation_loss,(0),axis=0)    
+
+        print(self.weights)
 
 
 

@@ -3,12 +3,14 @@ import numpy as np
 from LinearRegression import LinearRegression
 import matplotlib.pyplot as plt
 plt.rcParams['figure.figsize'] = (8.0, 6.0)
-plt.legend(labels=["Validation MSE","Entries trained"])
+plt.xlabel("Step Number")
+plt.ylabel("Batch Loss")
+# plt.legend(labels=["Validation MSE","Entries trained"])
 
 
 patience_for_all = 3
-learning_rate_for_all = 0.0005
-regularization_for_all = 1
+learning_rate_for_all = 0.005
+regularization_for_all = 0.6
 
 
 iris = load_iris()
@@ -36,7 +38,8 @@ np.random.shuffle(indices)
 
 
 title = "Combination-1 : Predicting the petal width given petal length and sepal width"
-print("\n\n",title)
+print("\n\n")
+print(title)
 model1 = LinearRegression(learning_rate=0.0005,patience=patience_for_all,regularization=regularization_for_all)
 
 sepal_width_training = sepal_width[training_set_indices]
@@ -104,6 +107,7 @@ y_plot = model2.batch_validation_loss[:,1]
 plt.scatter(x_plot, y_plot)
 plt.title(title)
 plt.savefig('MODEL2_result.jpg')
+
 plt.clf()
 # plt.show()
 
@@ -194,4 +198,4 @@ plt.clf()
 # plt.show()
 
 
-print("Plots saved\nGoodbye!")
+print("\nPlots saved\nGoodbye!\n\n")

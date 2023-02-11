@@ -44,57 +44,76 @@ test_data = np.array(test_data)
 
 print("---------------- Prepairing training set -----------------")
 
+training_set_x = pd.DataFrame()
 
-train_X = pd.DataFrame()
-for i in range(data.shape[0]):
-    train_X=train_X.append(pd.DataFrame(data[i]))
+# total 1261 entries of data for every location -> total = 36 * 1261 = 45396
+# each entry is a 36x48 table
+total_entries = data.shape[0]
 
-locNames = ["Loc"+str(i) for i in range(1,37)]
-train_X.insert(0,'LName',locNames*data.shape[0])
+for i in range(total_entries):
+    training_set_x = training_set_x.append(pd.DataFrame(data[i]))
 
-train_Y = list(output_train[0])
-for i in range(1,output_train.shape[0]):
-    train_Y.extend(list(output_train[i]))
-train_X.insert(0,'Target',train_Y)
 
-new_train_X = pd.DataFrame()
-for i in locNames:
-    new_train_X=new_train_X.append(train_X[train_X['LName']==i])
+train_y_col = []
 
-del train_X
-del train_Y
-train_X , train_Y = new_train_X.drop(['Target'],axis=1), new_train_X[['Target']]
+for i in range(output_train.shape[0]):
+    train_y_col.extend(list(output_train[i]))
 
+training_set_x.insert(0,'Target',train_y_col)
+
+tr_x = pd.DataFrame()
+tr_y = pd.DataFrame()
+
+for i in range(total_entries):
+    for j in range(36):
+        n = i + j*36        
+        tr_x = tr_x.append(training_set_x.iloc[n])
+        
+
+del training_set_x
+del train_y_col
+
+
+tr_y = tr_x.iloc[:,0]
+tr_x.drop(tr_x.columns[0],axis=1,inplace=True)
 
 print("---------------- Prepairing testing set -----------------")
 
 
-test_X = pd.DataFrame()
+testing_set_x = pd.DataFrame()
+
 for i in range(test_data.shape[0]):
-    test_X=test_X.append(pd.DataFrame(test_data[i]))
-locNames = ["Loc"+str(i) for i in range(1,37)]
-test_X.insert(0,'LName',locNames*test_data.shape[0])
+    testing_set_x = testing_set_x.append(pd.DataFrame(test_data[i]))
 
-test_Y = list(output_test[0])
-for i in range(1,output_test.shape[0]):
-    test_Y.extend(list(output_test[i]))
-test_X.insert(0,'Target',test_Y)
+test_y_col = []
 
-new_test_X = pd.DataFrame()
-for i in locNames:
-    new_test_X=new_test_X.append(test_X[test_X['LName']==i])
+for i in range(output_test.shape[0]):
+    test_y_col.extend(list(output_test[i]))
 
-del test_X
-del test_Y
-test_X , test_Y = new_test_X.drop(['Target'],axis=1), new_test_X[['Target']]
+testing_set_x.insert(0,'Target',test_y_col)
+
+te_x = pd.DataFrame()
+te_y = pd.DataFrame()
+
+for i in range(test_data.shape[0]):
+    for j in range(36):
+        n = i + j*36        
+        te_x = te_x.append(testing_set_x.iloc[n])
+        
+
+del testing_set_x
+del test_y_col
+
+te_y = te_x.iloc[:,0]
+te_x.drop(te_x.columns[0],axis=1,inplace=True)
 
 
 print("---------------- Initiating model -----------------")
 
-l = LinearRegression(learning_rate=0.005)
-l.fit(train_X.drop(['LName'],axis=1),train_Y['Target'])
-l.predict(test_X.drop(['LName'],axis=1))
-test_mse = l.score(test_X.drop(['LName'],axis=1),test_Y['Target'])
+l = LinearRegression(learning_rate=0.005,regularization=0.01)
+l.fit(tr_x,tr_y)
+l.predict(te_x)
+test_mse = l.score(te_x,te_y)
 print("\nScore method RMSE= ",math.sqrt(test_mse))
 
 

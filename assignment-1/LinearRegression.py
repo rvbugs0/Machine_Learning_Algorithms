@@ -70,10 +70,10 @@ class LinearRegression:
 
             print("Running epoch:",epoch+1,"/",self.max_epochs)
             # Shuffle the data
-            indices = np.arange(n)
-            np.random.shuffle(indices)
-            X = X[indices]
-            y = y[indices]
+            # indices = np.arange(n)
+            # np.random.shuffle(indices)
+            # X = X[indices]
+            # y = y[indices]
 
 
             # Split into batches

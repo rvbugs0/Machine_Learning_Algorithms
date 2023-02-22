@@ -10,7 +10,7 @@ plt.ylabel("Batch Loss")
 
 patience_for_all = 3
 learning_rate_for_all = 0.005
-regularization_for_all = 0.6
+regularization_for_all = 0
 
 
 iris = load_iris()

@@ -110,9 +110,9 @@ te_x.drop(te_x.columns[0],axis=1,inplace=True)
 
 print("---------------- Initiating model -----------------")
 
-l = LinearRegression(learning_rate=0.005,regularization=0.01)
+l = LinearRegression(learning_rate=0.005)
 l.fit(tr_x,tr_y)
-l.predict(te_x)
+print(l.predict(te_x))
 test_mse = l.score(te_x,te_y)
 print("\nScore method RMSE= ",math.sqrt(test_mse))
 
@@ -121,6 +121,7 @@ x_plot = l.batch_validation_loss[:,0]
 y_plot = l.batch_validation_loss[:,1]
 plt.scatter(x_plot, y_plot)
 plt.savefig("TrafficData.png")
+
 # plt.show()
 plt.clf()
 print("\nPlots saved\nGoodbye!\n\n")

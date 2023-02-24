@@ -9,31 +9,7 @@ warnings.filterwarnings("ignore")
 # Logistic Regression
 
 
-class LogitRegression():
-
-    @staticmethod
-    def sigmoid(x):
-        # Activation function used to map any real value between 0 and 1
-        return 1 / (1 + np.exp(-x))
-
-    
-    def net_input(self, x):
-        # Computes the weighted sum of inputs Similar to Linear Regression
-        return np.dot(x, self.weights)
-
-    def probability(self, x):
-        # Calculates the probability that an instance belongs to a particular class
-
-        return self.sigmoid(self.net_input(x))
-
-    def cost_function(self,x, y):
-        # Computes the cost function for all the training samples
-        m = x.shape[0]
-        total_cost = -(1 / m) * np.sum(
-            y * np.log(self.probability(x)) + (1 - y) * np.log(
-                1 - self.probability(x)))
-        return total_cost
-
+class LogisticRegression():
 
     def __init__(self, learning_rate=0.01, max_epochs=100, batch_size=32, regularization=0,  patience=3,  bias=1):
         self.batch_size = batch_size
@@ -55,8 +31,8 @@ class LogitRegression():
 
         # setting aside 10% of data for validation set
         upperbound = int(self.m * 0.9)
-        x = np.copy(X)[:upperbound]
-        y = np.copy(Y)[:upperbound]
+        x = X[:upperbound]
+        y = Y[:upperbound]
 
         validation_x = X[upperbound:]
         validation_y = Y[upperbound:]
@@ -73,7 +49,6 @@ class LogitRegression():
             for i in range(0, n, self.batch_size):
                 X_batch = x[i:i + self.batch_size]
                 y_batch = y[i:i + self.batch_size]
-                y_pred = np.dot(X_batch, self.weights)
 
                 A = 1 / (1 + np.exp(- (X_batch.dot(self.weights) + self.bias)))
 
@@ -86,10 +61,8 @@ class LogitRegression():
                 # update weights
                 self.weights = self.weights - self.learning_rate * dW
                 self.bias = self.bias - self.learning_rate * db
-                
 
-
-                batch_loss = self.cost_function(X_batch,y_batch)
+                batch_loss = self.cost_function(X_batch, y_batch)
 
                 tup = [[self.batch_validation_loss.shape[0], batch_loss]]
 
@@ -99,8 +72,8 @@ class LogitRegression():
             self.weights_array_wrt_epoch.append(np.copy(self.weights))
 
             # Compute the validation loss
-            
-            validation_loss = self.cost_function(validation_x,validation_y)
+
+            validation_loss = self.cost_function(validation_x, validation_y)
 
             if validation_loss < best_validation_loss:
                 best_validation_loss = validation_loss
@@ -116,7 +89,7 @@ class LogitRegression():
         self.weights = self.weights_array_wrt_epoch[best_epoch]
 
         print("\nWeights", self.weights)
-        print("Bias",self.bias)
+        print("Bias", self.bias,"\n")
 
     # Hypothetical function  h( x )
 
@@ -124,6 +97,28 @@ class LogitRegression():
         Z = 1 / (1 + np.exp(- (X.dot(self.weights) + self.bias)))
         Y = np.where(Z > 0.5, 1, 0)
         return Y
+
+    @staticmethod
+    def sigmoid(x):
+        # Activation function used to map any real value between 0 and 1
+        return 1 / (1 + np.exp(-x))
+
+    def net_input(self, x):
+        # Computes the weighted sum of inputs Similar to Linear Regression
+        return np.dot(x, self.weights)
+
+    def probability(self, x):
+        # Calculates the probability that an instance belongs to a particular class
+
+        return self.sigmoid(self.net_input(x))
+
+    def cost_function(self, x, y):
+        # Computes the cost function for all the training samples
+        m = x.shape[0]
+        total_cost = -(1 / m) * np.sum(
+            y * np.log(self.probability(x)) + (1 - y) * np.log(
+                1 - self.probability(x)))
+        return total_cost
 
 
 # Driver code
@@ -137,10 +132,10 @@ def main():
 
     # Splitting dataset into train and test set
     X_train, X_test, Y_train, Y_test = train_test_split(
-        X, Y, test_size=1/3, random_state=0)
+        X, Y, test_size=0.2, random_state=0)
 
     # Model training
-    model = LogitRegression(learning_rate=0.0001, patience=3, max_epochs=100)
+    model = LogisticRegression(learning_rate=0.0001, patience=3, max_epochs=100)
 
     model.fit(X_train, Y_train)
 

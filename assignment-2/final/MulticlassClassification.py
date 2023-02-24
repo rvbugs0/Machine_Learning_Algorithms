@@ -57,7 +57,7 @@ class MulticlassClassification:
                     max_prob = prob
             output.append(max_label)
 
-        return output
+        return np.array(output)
 
 
 

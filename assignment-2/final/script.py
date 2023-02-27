@@ -1,4 +1,3 @@
-# loading the iris flower dataset and
 from sklearn.datasets import load_iris
 import numpy as np
 import random
@@ -6,6 +5,9 @@ from MulticlassClassification import MulticlassClassification
 from sklearn.metrics import accuracy_score
 from mlxtend.plotting import plot_decision_regions
 from LinearDiscriminantAnalysis import LDA
+import matplotlib.gridspec as gridspec
+import matplotlib.pyplot as plt
+import itertools
 
 
 if __name__ == "__main__":
@@ -13,11 +15,6 @@ if __name__ == "__main__":
     iris = load_iris()
     X = iris.data
     Y = iris.target
-    sepalLength = X[:, 0]
-    sepalWidth = X[:, 1]
-    petalLength = X[:, 2]
-    petalWidth = X[:, 3]
-    # print(iris)
 
     classes = [c for c in np.unique(Y)]
     n = int(0.1*X.shape[0]/len(classes))
@@ -25,8 +22,9 @@ if __name__ == "__main__":
     all_test_indices = []
     for c in classes:
         c_indices = np.where(Y == c)[0].tolist()
-        c_indices = sorted(c_indices, key=(
-            lambda x: x - random.randint(-100, 100)))
+        
+        # c_indices = sorted(c_indices, key=(
+        #     lambda x: x - random.randint(-200, 200)))
         all_test_indices = all_test_indices + c_indices[:n]
 
     test_X = X[all_test_indices]
@@ -79,15 +77,13 @@ if __name__ == "__main__":
     print(model3_LDA.predict(test_X))
     print(accuracy_score(test_Y, model3_LDA.predict(test_X)))
 
-    import matplotlib.gridspec as gridspec
-    import matplotlib.pyplot as plt
-    import itertools
+
 
     # Plotting Decision Regions
     gs = gridspec.GridSpec(2, 2)
     fig = plt.figure(figsize=(10, 8))
-    value = 1.5
-    width = 0.75
+    # value = 1.5
+    # width = 0.75
 
     # fig = plot_decision_regions(X=test_X[:, -3:],
 
@@ -101,15 +97,10 @@ if __name__ == "__main__":
                                        ['Logistic Regression - Sepal Length/Width', 'LDA - Sepal Length/Width',
                                            'Logistic Regression - Petal Length/Width', 'LDA - Petal Length/Width'
                                            ],
-                                       itertools.product([0, 1], repeat=2),
+                                       [(0,0),(1,0),(0,1),(1,1)],
 
                                        [test_X[:,:2],test_X[:,:2],
-                                        test_X[:,-2:],test_X[:,-2:]
-
-
-
-
-    ]
+                                        test_X[:,-2:],test_X[:,-2:]    ]
     ):
         ax = plt.subplot(gs[grd[0], grd[1]])
         fig = plot_decision_regions(X=test_set, y=test_Y, clf=clf, legend=2)

@@ -55,18 +55,16 @@ if __name__ == "__main__":
     # petal length / width
     print("MODEL-2: Logistic Regression - features # petal length / width")
     model2 = MulticlassClassification(learning_rate=0.05, max_epochs=1000)
-    model2.fit(train_X[:, -3:], train_Y)
-    print(model2.predict(test_X[:, -3:]))
-    print(accuracy_score(test_Y, model2.predict(test_X[:, -3:])))
-
+    model2.fit(train_X[:, -2:], train_Y)
+    print(model2.predict(test_X[:, -2:]))
+    print(accuracy_score(test_Y, model2.predict(test_X[:, -2:])))
 
     # petal length / width
     print("MODEL-2-LDA: features # petal length / width")
     model2_LDA = LDA(n_components=2)
-    model2_LDA.fit(train_X[:, -3:], train_Y)
-    print(model2_LDA.predict(test_X[:, -3:]))
-    print(accuracy_score(test_Y, model2_LDA.predict(test_X[:, -3:])))
-
+    model2_LDA.fit(train_X[:, -2:], train_Y)
+    print(model2_LDA.predict(test_X[:, -2:]))
+    print(accuracy_score(test_Y, model2_LDA.predict(test_X[:, -2:])))
 
     # all features
     print("Model-3: Logistic Regression-  # all features")
@@ -75,23 +73,21 @@ if __name__ == "__main__":
     print(model3.predict(test_X))
     print(accuracy_score(test_Y, model3.predict(test_X)))
 
-
-    print("Model-3: Logistic Regression-  # all features")
+    print("Model-3: LDA-  # all features")
     model3_LDA = LDA(n_components=2)
     model3_LDA.fit(train_X, train_Y)
     print(model3_LDA.predict(test_X))
     print(accuracy_score(test_Y, model3_LDA.predict(test_X)))
 
+    import matplotlib.gridspec as gridspec
+    import matplotlib.pyplot as plt
+    import itertools
 
-    # import matplotlib.gridspec as gridspec
-    # import matplotlib.pyplot as plt
-    # import itertools
-
-    # # Plotting Decision Regions
-    # gs = gridspec.GridSpec(2, 2)
-    # fig = plt.figure(figsize=(10, 8))
-    # value = 1.5
-    # width = 0.75
+    # Plotting Decision Regions
+    gs = gridspec.GridSpec(2, 2)
+    fig = plt.figure(figsize=(10, 8))
+    value = 1.5
+    width = 0.75
 
     # fig = plot_decision_regions(X=test_X[:, -3:],
 
@@ -101,10 +97,21 @@ if __name__ == "__main__":
     #                                 2: width},
     #                             y=test_Y, clf=model2, legend=2)
 
-    # # for clf, lab, grd in zip([model2, model2, model2, model2],
-    # #                         ['Logistic Regression', 'Random Forest', 'RBF kernel SVM', 'Ensemble'],
-    # #                         itertools.product([0, 1], repeat=2)):
-    # #     ax = plt.subplot(gs[grd[0], grd[1]])
-    # #     fig = plot_decision_regions(X=X[:,-3:], y=Y, clf=clf, legend=2)
-    # #     plt.title(lab)
-    # plt.show()
+    for clf, lab, grd, test_set in zip([model1, model1_LDA, model2, model2_LDA],
+                                       ['Logistic Regression - Sepal Length/Width', 'LDA - Sepal Length/Width',
+                                           'Logistic Regression - Petal Length/Width', 'LDA - Petal Length/Width'
+                                           ],
+                                       itertools.product([0, 1], repeat=2),
+
+                                       [test_X[:,:2],test_X[:,:2],
+                                        test_X[:,-2:],test_X[:,-2:]
+
+
+
+
+    ]
+    ):
+        ax = plt.subplot(gs[grd[0], grd[1]])
+        fig = plot_decision_regions(X=test_set, y=test_Y, clf=clf, legend=2)
+        plt.title(lab)
+    plt.show()

@@ -22,9 +22,9 @@ if __name__ == "__main__":
     all_test_indices = []
     for c in classes:
         c_indices = np.where(Y == c)[0].tolist()
-        
-        # c_indices = sorted(c_indices, key=(
-        #     lambda x: x - random.randint(-200, 200)))
+
+        c_indices = sorted(c_indices, key=(
+            lambda x: x - random.randint(-1000,1000 )))
         all_test_indices = all_test_indices + c_indices[:n]
 
     test_X = X[all_test_indices]
@@ -47,8 +47,9 @@ if __name__ == "__main__":
     print("MODEL-1-LDA: features # sepal length / width")
     model1_LDA = LDA(n_components=2)
     model1_LDA.fit(train_X[:, :2], train_Y)
-    print(model1_LDA.predict(test_X[:, :2]))
-    print(accuracy_score(test_Y, model1_LDA.predict(test_X[:, :2])))
+    predictions = model1_LDA.predict(test_X[:, :2], transformed=False)
+    print(predictions)
+    print(accuracy_score(test_Y, predictions))
 
     # petal length / width
     print("MODEL-2: Logistic Regression - features # petal length / width")
@@ -61,8 +62,9 @@ if __name__ == "__main__":
     print("MODEL-2-LDA: features # petal length / width")
     model2_LDA = LDA(n_components=2)
     model2_LDA.fit(train_X[:, -2:], train_Y)
-    print(model2_LDA.predict(test_X[:, -2:]))
-    print(accuracy_score(test_Y, model2_LDA.predict(test_X[:, -2:])))
+    predictions = model2_LDA.predict(test_X[:, -2:], transformed=False)
+    print(predictions)
+    print(accuracy_score(test_Y, predictions))
 
     # all features
     print("Model-3: Logistic Regression-  # all features")
@@ -74,35 +76,45 @@ if __name__ == "__main__":
     print("Model-3: LDA-  # all features")
     model3_LDA = LDA(n_components=2)
     model3_LDA.fit(train_X, train_Y)
-    print(model3_LDA.predict(test_X))
-    print(accuracy_score(test_Y, model3_LDA.predict(test_X)))
-
-
+    predictions = model3_LDA.predict(test_X, transformed=False)
+    print(predictions)
+    print(accuracy_score(test_Y, predictions))
 
     # Plotting Decision Regions
-    gs = gridspec.GridSpec(2, 2)
-    fig = plt.figure(figsize=(10, 8))
-    # value = 1.5
-    # width = 0.75
+    gs = gridspec.GridSpec(2, 3)
+    fig = plt.figure(figsize=(16, 8))
+    value = 1.5
+    width = 0.75
 
     # fig = plot_decision_regions(X=test_X[:, -3:],
 
-    #                             filler_feature_values={
-    #                                 2: value},
-    #                             filler_feature_ranges={
-    #                                 2: width},
+    # filler_feature_values={
+    #     2: value},
+    # filler_feature_ranges={
+    #     2: width},
     #                             y=test_Y, clf=model2, legend=2)
 
-    for clf, lab, grd, test_set in zip([model1, model1_LDA, model2, model2_LDA],
+    for clf, lab, grd, test_set in zip([model1, model1_LDA, model2, model2_LDA, model3, model3_LDA],
                                        ['Logistic Regression - Sepal Length/Width', 'LDA - Sepal Length/Width',
-                                           'Logistic Regression - Petal Length/Width', 'LDA - Petal Length/Width'
-                                           ],
-                                       [(0,0),(1,0),(0,1),(1,1)],
+                                           'Logistic Regression - Petal Length/Width', 'LDA - Petal Length/Width',
+                                           'Logistic Regression - All Features', 'LDA - All Features'
+                                        ],
+                                       [(0, 0), (1, 0), (0, 1),
+                                        (1, 1), (0, 2), (1, 2)],
 
-                                       [test_X[:,:2],test_X[:,:2],
-                                        test_X[:,-2:],test_X[:,-2:]    ]
-    ):
+                                       [test_X[:, :2], model1_LDA.transform(test_X[:, :2]),
+                                        test_X[:, -2:], model2_LDA.transform(test_X[:, -2:]),
+                                        test_X, model3_LDA.transform(test_X)
+                                        ]
+                                       ):
         ax = plt.subplot(gs[grd[0], grd[1]])
-        fig = plot_decision_regions(X=test_set, y=test_Y, clf=clf, legend=2)
+        fig = plot_decision_regions(X=test_set, y=test_Y, clf=clf, legend=2,
+                                    filler_feature_values={
+                                        2: value,3:value},
+                                    filler_feature_ranges={
+                                        2: width,3:width},
+                                        feature_index=[0,1]
+                                    ),
+        
         plt.title(lab)
     plt.show()

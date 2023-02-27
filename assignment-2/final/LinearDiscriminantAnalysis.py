@@ -1,6 +1,7 @@
 import numpy as np
 from MulticlassClassification import MulticlassClassification
 
+
 class LDA:
 
     def __init__(self, n_components):
@@ -44,24 +45,20 @@ class LDA:
         # store first n eigenvectors
         self.linear_discriminants = eigenvectors[0:self.n_components]
 
-
     def transform(self, X):
         # project data
         return np.dot(X, self.linear_discriminants.T)
-    
 
-    def fit(self, X, y,learning_rate = 0.05, patience = 3, max_epochs = 1000):
-        self.fit_self(X,y)
+    def fit(self, X, y, learning_rate=0.05, patience=3, max_epochs=1000):
+        self.fit_self(X, y)
         X_modified = self.transform(X)
         # print("Regular",X)
         # print("Modified", X_modified)
-        self.model = MulticlassClassification(learning_rate=learning_rate,patience=patience,max_epochs=max_epochs)
-        self.model.fit(X_modified,y)
+        self.model = MulticlassClassification(
+            learning_rate=learning_rate, patience=patience, max_epochs=max_epochs)
+        self.model.fit(X_modified, y)
 
-    
-
-
-    def predict(self,X):
+    def predict(self, X,transformed=True):
+        if(transformed):
+            return self.model.predict(X)
         return self.model.predict(self.transform(X))
-
-

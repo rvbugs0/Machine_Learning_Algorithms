@@ -1,44 +1,31 @@
+
 import numpy as np
-from Sequential import Sequential
-from LinearLayer import LinearLayer
-from SigmoidLayer import SigmoidLayer
-from TanhLayer import TanhLayer
-from CrossEntropyLoss import CrossEntropyLoss
+from NeuralNetwork import LinearLayer,Sequential,SigmoidLayer,CrossEntropyLoss
 
-# construct input data for XOR problem
-X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-y = np.array([[0], [1], [1], [0]])
+if __name__ == "__main__":
+    # construct input data for XOR problem
+    X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y = np.array([[0], [1], [1], [0]])
 
-# construct neural network
-model = Sequential()
-model.add(LinearLayer(2, 2))
-model.add(SigmoidLayer(2))
-model.add(LinearLayer(2, 1))
-model.add(SigmoidLayer(2))
-loss = CrossEntropyLoss()
+    # construct neural network
+    model = Sequential()
 
-# train neural network
-learning_rate = 0.1
-for i in range(10000):
-    # forward pass
+    # layers = [2 (since we have 2 input features) , 8,1,4,1 ]
+
+    model.add(LinearLayer(2, 32))
+    model.add(SigmoidLayer())
+    model.add(LinearLayer(32, 1))
+    model.add(SigmoidLayer())
+
+
+    model.train(X,y)
+
+    X = np.array([[1,0],[0, 0], [0, 1], [1, 0], [1, 1],[0,0],[0,1]])
+    # evaluate the trained model
     output = model.forward(X)
-    loss_val = loss.forward(output, y)
 
-    # backward pass
-    grad = loss.backward()
-    model.backward(grad)
+    print("Predictions:")
+    binary_outputs = np.where(output >= 0.5, 1, 0)
+    print(binary_outputs)
 
-    # update weights
-    for layer in model.layers:
-        if isinstance(layer, LinearLayer):
-            layer.weights -= learning_rate * layer.grad_weights
-            layer.biases -= learning_rate * layer.grad_biases
 
-    # check for convergence
-    if i % 1000 == 0:
-        print(f"Iteration {i}: loss = {loss_val}")
-
-# evaluate the trained model
-output = model.forward(X)
-print("Predictions:")
-print(output)

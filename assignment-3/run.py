@@ -186,10 +186,9 @@ if __name__ == "__main__":
 
     # layers = [2 (since we have 2 input features) , 8,1,4,1 ]
 
-    model.add(LinearLayer(2, 10))
+    model.add(LinearLayer(2, 32))
     model.add(SigmoidLayer())
-    model.add(LinearLayer(10, 2))
-    model.add(LinearLayer(2, 1))
+    model.add(LinearLayer(32, 1))
     model.add(SigmoidLayer())
 
     # model.add(SoftmaxLayer())
@@ -202,7 +201,7 @@ if __name__ == "__main__":
     wait = 0
 
     # train neural network
-    learning_rate = 0.005
+    learning_rate = 0.05
     for i in range(100000):
         # forward pass
         output = model.forward(X)

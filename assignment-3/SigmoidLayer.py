@@ -4,11 +4,7 @@ import numpy as np
 
 class SigmoidLayer(Layer):
     def __init__(self, input_size):
-        super().__init__()
-        self.input = None
-        self.output = None
-        self.weights = np.random.randn(input_size, 1) * np.sqrt(2 / input_size)
-        self.bias = np.zeros(1)
+        super().__init__(input_size, 1)
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
@@ -31,6 +27,3 @@ class SigmoidLayer(Layer):
         self.weights -= learning_rate * grad_weights
         self.bias -= learning_rate * grad_bias
         return grad_input
-    
-    def get_weights(self):
-        return self.weights

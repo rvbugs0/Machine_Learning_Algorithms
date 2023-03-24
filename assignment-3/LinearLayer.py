@@ -4,14 +4,12 @@ from Layer import Layer
 
 class LinearLayer(Layer):
     def __init__(self, input_size, output_size):
-        super().__init__()
-        self.weights = np.random.randn(
-            input_size, output_size) * np.sqrt(2 / input_size)
-        self.bias = np.zeros(output_size)
-
+        super().__init__(input_size,output_size)
+        
     def forward(self, x):
         self.input = x
         output = np.dot(x, self.weights) + self.bias
+        self.output = output
         return output
 
     def backward(self, error, learning_rate):
@@ -22,5 +20,6 @@ class LinearLayer(Layer):
         self.bias -= learning_rate * grad_bias
         return grad_input
     
-    def get_weights(self):
-        return self.weights
+
+
+

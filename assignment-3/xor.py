@@ -1,6 +1,6 @@
 
 import numpy as np
-from NeuralNetwork import LinearLayer,Sequential,SigmoidLayer,CrossEntropyLoss
+from NeuralNetwork import LinearLayer,Sequential,SigmoidLayer,TanhLayer
 
 if __name__ == "__main__":
     # construct input data for XOR problem
@@ -11,16 +11,26 @@ if __name__ == "__main__":
     model = Sequential()
 
     # layers = [2 (since we have 2 input features) , 8,1,4,1 ]
+    
+    # with tanh layer
+    # model.add(LinearLayer(2, 2))
+    # model.add(TanhLayer())
+    # model.add(LinearLayer(2, 1))
+    # model.add(SigmoidLayer())
 
-    model.add(LinearLayer(2, 32))
+    # with all sigmoid layers
+    model.add(LinearLayer(2, 2))
     model.add(SigmoidLayer())
-    model.add(LinearLayer(32, 1))
+    model.add(LinearLayer(2, 1))
     model.add(SigmoidLayer())
+
 
 
     model.train(X,y)
 
-    X = np.array([[1,0],[0, 0], [0, 1], [1, 0], [1, 1],[0,0],[0,1]])
+    # model.save_weights("best")
+
+
     # evaluate the trained model
     output = model.forward(X)
 
@@ -29,3 +39,4 @@ if __name__ == "__main__":
     print(binary_outputs)
 
 
+    # also need to save weights

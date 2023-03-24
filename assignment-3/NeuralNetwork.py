@@ -26,7 +26,8 @@ class Layer:
         self.input = None
         self.output = None
         self.weights = np.random.randn(
-            input_size, output_size) * np.sqrt(2 / input_size)
+            input_size, output_size) 
+        # * np.sqrt(2 / input_size)
         self.bias = np.zeros((1, output_size))
 
     def forward(self, input):
@@ -122,7 +123,7 @@ class TanhLayer(Layer):
         output = self.tanh(input)
         return output
 
-    def backward(self, output_gradient):
+    def backward(self, output_gradient,learning_rate):
         tanh_grad = 1 - np.square(self.tanh(self.input))
         grad_input = output_gradient * tanh_grad
         return grad_input
@@ -150,7 +151,12 @@ class Sequential(Layer):
             error = layer.backward(error, learning_rate)
         return error
 
-    def save_weights(self, filename,weights):
+    def save_weights(self, filename):
+        weights = np.array([])
+        for l in self.layers:
+            (w,b) = l.get_weights()
+            weights = np.vstack([weights,b])
+
         np.save(filename, weights)
 
     def load_weights(self, filename):

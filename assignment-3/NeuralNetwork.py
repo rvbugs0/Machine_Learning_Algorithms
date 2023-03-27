@@ -1,5 +1,5 @@
 import numpy as np
-np.random.seed(23)
+# np.random.seed(23)
 
 class Layer:
     def __init__(self, input_size=1, output_size=1):
@@ -115,7 +115,7 @@ class TanhLayer(Layer):
 
 class CrossEntropyLoss:
     def __init__(self):
-        self.eps = 1e-15  # avoid taking log of zero
+        self.eps = 1e-8  # avoid taking log of zero
 
     def forward(self, y_pred, y_true):
         
@@ -129,6 +129,7 @@ class CrossEntropyLoss:
         grad = -(self.y_true / self.y_pred) + (1 - self.y_true) / (1 - self.y_pred)
         grad /= self.y_true.shape[0]
         return grad
+
 
 
 class Sequential():
@@ -165,10 +166,7 @@ class Sequential():
 
     def predict(self, X):
         output =  self.forward(X)
-        result = np.zeros_like(output)
-        for i in range(output.shape[0]):
-            result[i, np.argmax(output[i])] = 1
-        return result
+        return output
 
     
 
@@ -217,13 +215,8 @@ class Sequential():
                     print(f"Epoch {i}/{epochs}: loss = {loss_val}",end="\r")
         self.epoch_training_validation_loss = self.epoch_training_validation_loss[1:]
         print()
-        # loss = CrossEntropyLoss()
-        # train_output = self.forward(X)
-        # train_loss = loss.forward(y, train_output)
-        # print(f"\nFinal Loss = {train_loss:.4f}")
 
         for i in range(len(best_weights)):
             self.layers[i].load_weights(best_weights[i])
-        # print("Best weights loaded")
 
 

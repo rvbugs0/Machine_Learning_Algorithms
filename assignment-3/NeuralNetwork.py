@@ -16,8 +16,12 @@ class Layer:
         raise NotImplementedError
 
     def get_weights(self):
-        weights = np.append(self.weights,self.bias,axis =0)
-        return weights
+        if(self.bias.ndim==1):
+            weights = np.append(self.weights,self.bias.reshape(1,self.bias.shape[0]),axis=0)
+            return weights
+        else:
+            weights = np.append(self.weights,self.bias,axis =0)
+            return weights
 
     def load_weights(self, w):
         self.weights = w[:-1, :]

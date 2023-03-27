@@ -16,11 +16,12 @@ class Layer:
         raise NotImplementedError
 
     def get_weights(self):
-        return (self.weights, self.bias)
+        weights = np.append(self.weights,self.bias,axis =0)
+        return weights
 
-    def load_weights(self, weights):
-        self.weights = weights[0]
-        self.bias = weights[1]
+    def load_weights(self, w):
+        self.weights = w[:-1, :]
+        self.bias = w[-1,:]
 
 
 class LinearLayer(Layer):
@@ -51,8 +52,6 @@ class SigmoidLayer(Layer):
         return 1 / (1 + np.exp(-x))
 
     def sigmoid_gradient(self, x):
-        # sigm = self.sigmoid(x)
-        # return sigm * (1 - sigm)
         return x*(1-x)
 
     def forward(self, x):
@@ -151,17 +150,14 @@ class Sequential():
         return error
 
     def save_weights(self, filename):
-        weights = np.array([])
-        for l in self.layers:
-            (w,b) = l.get_weights()
-            weights = np.vstack([weights,b])
-
-        np.save(filename, weights)
+        weights = [w.get_weights() for w in self.layers]
+        weights = np.asanyarray(weights,dtype=object)
+        np.save(filename,weights)        
 
     def load_weights(self, filename):
         weights = np.load(filename, allow_pickle=True)
         for i in range(len(self.layers)):
-            self.layers[i].set_weights(weights[i])
+            self.layers[i].load_weights(weights[i])
 
     def predict(self, X):
         return self.forward(X)

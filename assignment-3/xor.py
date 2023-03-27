@@ -25,7 +25,7 @@ if __name__ == "__main__":
             model.add(TanhLayer())
             model.add(LinearLayer(4, 1))
             model.add(TanhLayer())
-            model.train(X,y,learning_rate=0.05,patience=5,epochs=10000)
+            model.train(X,y,learning_rate=0.05,patience=5,epochs=1000)
 
         if(choice==2):
             # with all sigmoid layers
@@ -35,7 +35,7 @@ if __name__ == "__main__":
             model.add(SigmoidLayer())
             model.add(LinearLayer(4, 1))
             model.add(SigmoidLayer())
-            model.train(X,y,learning_rate=0.1,patience=5,epochs=10000)
+            model.train(X,y,learning_rate=0.05,patience=5,epochs=1000)
         
         if(choice==3):
             break

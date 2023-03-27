@@ -174,15 +174,15 @@ class Sequential():
             output = self.forward(X)
             loss_val = loss.forward(output, y)
 
+            weights = [layer.get_weights() for layer in self.layers]
             # backward pass
             grad = loss.backward()
 
             self.backward(grad, learning_rate)
 
             # check for convergence
-            if loss_val < best_loss:
-                best_weights = [layer.get_weights() for layer in self.layers]
-                
+            if loss_val < best_loss :
+                best_weights = weights
                 best_loss = loss_val
                 wait = 0
             else:
@@ -196,7 +196,7 @@ class Sequential():
                     loss = CrossEntropyLoss()
                     val_output = self.forward(x_val)
                     val_loss = loss.forward(y_val, val_output)
-                    print(f"Iteration {i}: loss = {loss_val:.4f}",end="    ")
+                    print(f"Epoch {i}/{epochs}: loss = {loss_val:.4f}",end="    ")
                     print(f"Validation loss = {val_loss:.4f}")
                 else:
                     print(f"Iteration {i}: loss = {loss_val}")

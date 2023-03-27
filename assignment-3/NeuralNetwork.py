@@ -1,5 +1,5 @@
 import numpy as np
-# np.random.seed(23) 
+
 
 class Layer:
     def __init__(self, input_size=1, output_size=1):
@@ -16,7 +16,7 @@ class Layer:
         raise NotImplementedError
 
     def get_weights(self):
-        return (self.weights,self.bias)
+        return (self.weights, self.bias)
 
     def load_weights(self, weights):
         self.weights = weights[0]
@@ -97,35 +97,35 @@ class TanhLayer(Layer):
 
     def tanh(self, x):
         return np.tanh(x)
+        # return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
 
     def forward(self, input):
         self.input = input
         output = self.tanh(input)
         return output
 
-    def backward(self, output_gradient,learning_rate):
+    def backward(self, output_gradient, learning_rate):
         tanh_grad = 1 - np.square(self.tanh(self.input))
         grad_input = output_gradient * tanh_grad
         return grad_input
+
 
 class CrossEntropyLoss:
     def __init__(self):
         self.eps = 1e-15  # avoid taking log of zero
 
     def forward(self, y_pred, y_true):
-        m = y_true.shape[0]
+        
+        y_pred = np.clip(y_pred, self.eps, 1 - self.eps)
         self.y_pred = y_pred
         self.y_true = y_true
-        loss = -np.sum(y_true * np.log(y_pred + self.eps) +
-                       (1 - y_true) * np.log(1 - y_pred + self.eps)) / m
-
+        loss = -np.mean(y_true * np.log(y_pred + self.eps) + (1 - y_true) * np.log(1 - y_pred + self.eps))
         return loss
 
     def backward(self):
-        m = self.y_true.shape[0]
-        d_loss = (self.y_pred - self.y_true) / \
-            (self.y_pred * (1 - self.y_pred) + self.eps) / m
-        return d_loss
+        grad = -(self.y_true / self.y_pred) + (1 - self.y_true) / (1 - self.y_pred)
+        grad /= self.y_true.shape[0]
+        return grad
 
 
 class Sequential():
@@ -195,13 +195,15 @@ class Sequential():
                     break
 
             if i % loss_print_count == 0:
-                print(f"Iteration {i}: loss = {loss_val}")
+                
                 if(x_val is not None):
                     loss = CrossEntropyLoss()
                     val_output = self.forward(x_val)
-                    loss_val = loss.forward(y_val, val_output)
-                    print(f"Validation loss = {loss_val}\n\n")
-
+                    val_loss = loss.forward(y_val, val_output)
+                    print(f"Iteration {i}: loss = {loss_val:.4f}",end="    ")
+                    print(f"Validation loss = {val_loss:.4f}")
+                else:
+                    print(f"Iteration {i}: loss = {loss_val}")
 
         
         for i in range(len(best_weights)):

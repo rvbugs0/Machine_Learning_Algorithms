@@ -1,6 +1,6 @@
 
 import numpy as np
-from NeuralNetwork import LinearLayer,Sequential,SigmoidLayer,TanhLayer
+from NeuralNetwork import LinearLayer,Sequential,SigmoidLayer,TanhLayer,SoftmaxLayer
 
 if __name__ == "__main__":
     # construct input data for XOR problem
@@ -16,24 +16,24 @@ if __name__ == "__main__":
         if(choice==1):
 
 
-        # layers = [2 (since we have 2 input features) , 8,1,4,1 ]
+        
     
             # with tanh layer
             model.add(LinearLayer(2, 2))
             model.add(TanhLayer())
-            model.add(LinearLayer(2, 16))
+            model.add(LinearLayer(2, 4))
             model.add(TanhLayer())
-            model.add(LinearLayer(16, 1))
-            model.add(SigmoidLayer())
+            model.add(LinearLayer(4, 1))
+            model.add(TanhLayer())
             model.train(X,y,learning_rate=0.05,patience=5,epochs=10000)
 
         if(choice==2):
             # with all sigmoid layers
             model.add(LinearLayer(2, 2))
             model.add(SigmoidLayer())
-            model.add(LinearLayer(2, 16))
+            model.add(LinearLayer(2, 4))
             model.add(SigmoidLayer())
-            model.add(LinearLayer(16, 1))
+            model.add(LinearLayer(4, 1))
             model.add(SigmoidLayer())
             model.train(X,y,learning_rate=0.1,patience=5,epochs=10000)
         

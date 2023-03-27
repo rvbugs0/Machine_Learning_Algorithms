@@ -135,7 +135,7 @@ class Sequential():
     def __init__(self):
         super().__init__()
         self.layers = []
-        
+        self.epoch_training_validation_loss = np.vstack(np.array([[0,0,0]]))
 
     def add(self, layer):
         self.layers.append(layer)
@@ -164,7 +164,14 @@ class Sequential():
             self.layers[i].load_weights(weights[i])
 
     def predict(self, X):
-        return self.forward(X)
+        output =  self.forward(X)
+        result = np.zeros_like(output)
+        for i in range(output.shape[0]):
+            result[i, np.argmax(output[i])] = 1
+        return result
+
+    
+
 
     def train(self, X, y, learning_rate=0.05, epochs=10000000,patience = 3,loss_print_count=1,x_val=None,y_val=None):
 
@@ -197,13 +204,18 @@ class Sequential():
             if i % loss_print_count == 0:
                 
                 if(x_val is not None):
+
                     loss = CrossEntropyLoss()
                     val_output = self.forward(x_val)
                     val_loss = loss.forward(y_val, val_output)
+                    tup = np.array([i,loss_val,val_loss])
+                    # self.epoch_training_validation_loss = np.append(self.epoch_training_validation_loss,tup,axis=0)
+                    self.epoch_training_validation_loss = np.vstack([self.epoch_training_validation_loss,tup])
                     print(f"Epoch {i}/{epochs}: loss = {loss_val:.4f}       Validation loss = {val_loss:.4f}",end="\r")
                     
                 else:
                     print(f"Epoch {i}/{epochs}: loss = {loss_val}",end="\r")
+        self.epoch_training_validation_loss = self.epoch_training_validation_loss[1:]
         print()
         # loss = CrossEntropyLoss()
         # train_output = self.forward(X)
@@ -213,3 +225,5 @@ class Sequential():
         for i in range(len(best_weights)):
             self.layers[i].load_weights(best_weights[i])
         # print("Best weights loaded")
+
+

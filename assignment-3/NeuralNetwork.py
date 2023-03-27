@@ -1,33 +1,12 @@
 import numpy as np
-
-
-class CrossEntropyLoss:
-    def __init__(self):
-        self.eps = 1e-15  # avoid taking log of zero
-
-    def forward(self, y_pred, y_true):
-        m = y_true.shape[0]
-        self.y_pred = y_pred
-        self.y_true = y_true
-        loss = -np.sum(y_true * np.log(y_pred + self.eps) +
-                       (1 - y_true) * np.log(1 - y_pred + self.eps)) / m
-
-        return loss
-
-    def backward(self):
-        m = self.y_true.shape[0]
-        d_loss = (self.y_pred - self.y_true) / \
-            (self.y_pred * (1 - self.y_pred) + self.eps) / m
-        return d_loss
-
+# np.random.seed(23) 
 
 class Layer:
     def __init__(self, input_size=1, output_size=1):
         self.input = None
         self.output = None
         self.weights = np.random.randn(
-            input_size, output_size) 
-        # * np.sqrt(2 / input_size)
+            input_size, output_size) * np.sqrt(2 / input_size)
         self.bias = np.zeros((1, output_size))
 
     def forward(self, input):
@@ -72,8 +51,9 @@ class SigmoidLayer(Layer):
         return 1 / (1 + np.exp(-x))
 
     def sigmoid_gradient(self, x):
-        sigm = self.sigmoid(x)
-        return sigm * (1 - sigm)
+        # sigm = self.sigmoid(x)
+        # return sigm * (1 - sigm)
+        return x*(1-x)
 
     def forward(self, x):
         self.input = x
@@ -128,8 +108,27 @@ class TanhLayer(Layer):
         grad_input = output_gradient * tanh_grad
         return grad_input
 
+class CrossEntropyLoss:
+    def __init__(self):
+        self.eps = 1e-15  # avoid taking log of zero
 
-class Sequential(Layer):
+    def forward(self, y_pred, y_true):
+        m = y_true.shape[0]
+        self.y_pred = y_pred
+        self.y_true = y_true
+        loss = -np.sum(y_true * np.log(y_pred + self.eps) +
+                       (1 - y_true) * np.log(1 - y_pred + self.eps)) / m
+
+        return loss
+
+    def backward(self):
+        m = self.y_true.shape[0]
+        d_loss = (self.y_pred - self.y_true) / \
+            (self.y_pred * (1 - self.y_pred) + self.eps) / m
+        return d_loss
+
+
+class Sequential():
     def __init__(self):
         super().__init__()
         self.layers = []
@@ -167,7 +166,7 @@ class Sequential(Layer):
     def predict(self, X):
         return self.forward(X)
 
-    def train(self, X, y, learning_rate=0.05, epochs=10000000,patience = 3):
+    def train(self, X, y, learning_rate=0.05, epochs=10000000,patience = 3,loss_print_count=1000,x_val=None,y_val=None):
 
         loss = CrossEntropyLoss()
         best_loss = 1000000000
@@ -195,8 +194,15 @@ class Sequential(Layer):
                 if wait >= patience:
                     break
 
-            if i % 1000 == 0:
+            if i % loss_print_count == 0:
                 print(f"Iteration {i}: loss = {loss_val}")
+                if(x_val is not None):
+                    loss = CrossEntropyLoss()
+                    val_output = self.forward(x_val)
+                    loss_val = loss.forward(y_val, val_output)
+                    print(f"Validation loss = {loss_val}\n\n")
+
+
         
         for i in range(len(best_weights)):
             self.layers[i].load_weights(best_weights[i])

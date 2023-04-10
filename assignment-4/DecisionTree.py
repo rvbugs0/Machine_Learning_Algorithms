@@ -2,6 +2,7 @@ from enum import Enum
 import numpy as np
 import pandas as pd
 import requests
+from collections import Counter
 
 
 class Criterion(Enum):
@@ -11,191 +12,316 @@ class Criterion(Enum):
 
 
 class Node(object):
-    def __init__(self, value, is_leaf=False):
-        self.value = value
+    def __init__(self, X, Y, depth=0, is_leaf=False, node_type = "root",rule = ""):
+        self.X = X
+        self.Y = Y
+        self.n = len(self.Y)
+        self.depth = depth
+        self.split_feature = None
+        self.split_value = None
+        self.is_leaf = is_leaf
         self.left = None
         self.right = None
-        self.gini_value = None
-        self.col_index = None
-        self.is_leaf = is_leaf
+        self.node_type = node_type
+        self.rule =rule
+        self.counts = Counter(Y)
+        counts_sorted = list(sorted(self.counts.items(), key=lambda item: item[1]))
+
+        # Getting the last item
+        # i.e. which has more number of occurences  
+        yhat = None
+        if len(counts_sorted) > 0:
+            yhat = counts_sorted[-1][0]
+        self.yhat = yhat
+
+    def gini(self):
+        # calculates gini for base (without splits)
+        counts = Counter(self.Y)
+        class_1_count, class_2_count = counts.get(
+            0, 0), counts.get(1, 0)
+        # Getting the GINI impurity
+        return self.gini_impurity(class_1_count, class_2_count)
+
+    def gini_impurity(self, class_1_count, class_2_count):
+        if class_1_count is None:
+            class_1_count = 0
+
+        if class_2_count is None:
+            class_2_count = 0
+
+        if class_1_count+class_2_count == 0:
+            return 0.0
+
+        # Getting the probability to see each of the classes
+        p1 = class_1_count / (class_1_count+class_2_count)
+        p2 = class_2_count / (class_1_count+class_2_count)
+
+        # Calculating GINI
+        gini = 1 - (p1 ** 2 + p2 ** 2)
+
+        # Returning the gini impurity
+        return gini
+
+    def ma(self, x: np.array, window: int) -> np.array:
+        """
+        Calculates the moving average of the given list. 
+        """
+        return np.convolve(x, np.ones(window), 'valid') / window
 
 
 class decision_tree_classifier(object):
 
-    def __init__(self,criterion : Criterion, min_samples_split=10, min_gini=0.2, max_depth=5 ):
+    def __init__(self, criterion: Criterion, min_samples_split=10,  max_depth=5, min_samples_leaf=1):
         self.root = None
         self.min_samples_split = min_samples_split
-        self.min_gini = min_gini
+        self.min_samples_leaf = min_samples_leaf
         self.max_depth = max_depth
-        self.classes = None
         self.criterion = criterion
+        self.X = None
+        self.y = None
+        self.features = None
 
-    def fit(self, data):
-        self.classes = list(set(int(row[-1]) for row in data))
-        self.root = self.create_node(data)
-        self.build_tree(self.root, current_depth=0)
+    def fit(self, X, y):
+
+        self.X = X
+        self.Y = y
+        self.features = list(self.X.columns)
+        self.root = self.initialize_tree()
+
         return self.root
 
-    def create_node(self, data):
-        node = Node(None)
+    def initialize_tree(self):
+        if self.criterion == Criterion.MISCLASSIFICATION_RATE:
+            pass
+        elif self.criterion == Criterion.GINI_IMPURITY:
+            root_node = Node(self.X, self.Y, depth=0,
+                             is_leaf=False)
+            self.grow_tree(root_node)
+            return root_node
+        elif self.criterion == Criterion.ENTROPY:
+            pass
 
-        # checking if node can be further split using minimum gini as criterion
-        gini_score = self.gini_index(data)
-        if gini_score <= self.min_gini:
-            node.is_leaf = True
-            node.value = np.bincount([row[-1] for row in data]).argmax()
-            node.gini_value = gini_score
-            return node
+    def best_split(self, node):
+        # Creating a dataset for spliting
+        df = node.X.copy()
+        df['Y'] = node.Y
 
-        # checking if node has enough samples to be split again
-        if len(data) <= self.min_samples_split:
-            node.is_leaf = True
-            node.value = np.bincount([row[-1] for row in data]).argmax()
-            node.gini_value = gini_score
-            return node
+        # Getting the GINI impurity for the base input
+        GINI_base = node.gini()
 
-        # finding minimum gini impurity split
-        gini_index = 1.0
-        for col_index in range(len(data[0])-1):
-            for row_index in range(len(data)):
-                value = data[row_index][col_index]
-                child = self.get_split(data, col_index, value)
-                node_gini_index = self.calculate_gini_index(value, child)
-                if node_gini_index < gini_index:
-                    gini_index = node_gini_index
-                    node.value = value
-                    node.gini_value = node_gini_index
-                    node.col_index = col_index
-                    node.left = child['l']
-                    node.right = child['r']
-        return node
+        # Finding which split yields the best GINI gain
+        max_gain = 0
 
-    def gini_index(self, data):
-        size = len(data)
-        instances = [0] * len(self.classes)
-        for row in data:
-            instances[int(row[-1])] += 1
-        return 1 - np.sum([(val/size)**2 for val in instances]) if size > 0 else 1
+        # Default best feature and split
+        best_feature = None
+        best_value = None
 
-    def calculate_gini_index(self, value, child):
-        group_size = [len(child['l']), len(child['r'])]
-        left_gini = self.gini_index(child['l'])
-        right_gini = self.gini_index(child['r'])
-        return (group_size[0]/np.sum(group_size) * left_gini) + (group_size[1]/np.sum(group_size) * right_gini)
+        for feature in self.features:
+            # Droping missing values
+            Xdf = df.dropna().sort_values(feature)
 
-    def get_split(self, data, col_index, value):
-        left_child, right_child = [], []
-        for index in range(len(data)):
-            if data[index][col_index] < value:
-                left_child.append(data[index])
-            if data[index][col_index] > value:
-                right_child.append(data[index])
-        return {'l': left_child, 'r': right_child}
+            # Sorting the values and getting the rolling average
+            xmeans = node.ma(Xdf[feature].unique(), 2)
 
-    def build_tree(self, node, current_depth):
-        # create left subtree for the node if possible under constraints
-        if current_depth < self.max_depth:
-            # creating left node
-            if node.left is not None and isinstance(node.left, list):
-                left_node = self.create_node(node.left)
-                node.left = left_node
-                if node.left.is_leaf is not True:
-                    self.build_tree(node.left, current_depth+1)
-            if node.right is not None and isinstance(node.right, list):
-                # creating right node
-                right_node = self.create_node(node.right)
-                node.right = right_node
-                if node.right.is_leaf is not True:
-                    self.build_tree(node.right, current_depth+1)
+            for value in xmeans:
+                # Spliting the dataset
+                left_counts = Counter(Xdf[Xdf[feature] < value]['Y'])
+                right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
 
-    def traverse(self):
-        tree = {'root': str(self.root.value)}
-        stack = [self.root]
-        node = self.root
-        while len(stack) > 0:
-            while node is not None:
-                stack.append(node)
-                node = node.left
-            node = stack.pop(-1)
-            if node.is_leaf is not True:
-                tree[str(node.value)] = {'left': node.left.value, 'right': node.right.value,
-                                         'feature': node.col_index, 'gini value': node.gini_value}
-            else:
-                tree[str(node.value)] = {'left': 'None', 'right': 'None',
-                                         'class label': node.value, 'gini value': node.gini_value, 'leaf': True}
-            node = node.right
-        return tree
+                # Getting the Y distribution from the dicts
+                y0_left, y1_left, y0_right, y1_right = left_counts.get(0, 0), left_counts.get(
+                    1, 0), right_counts.get(0, 0), right_counts.get(1, 0)
 
-    def predict(self, sample):
+                # Getting the left and right gini impurities
+                gini_left = node.gini_impurity(y0_left, y1_left)
+                gini_right = node.gini_impurity(y0_right, y1_right)
+
+                # Getting the obs count from the left and the right data splits
+                n_left = y0_left + y1_left
+                n_right = y0_right + y1_right
+
+                # Calculating the weights for each of the nodes
+                w_left = n_left / (n_left + n_right)
+                w_right = n_right / (n_left + n_right)
+
+                # Calculating the weighted GINI impurity
+                wGINI = w_left * gini_left + w_right * gini_right
+
+                # Calculating the GINI gain
+                GINIgain = GINI_base - wGINI
+
+                # Checking if this is the best split so far
+                if GINIgain > max_gain:
+                    best_feature = feature
+                    best_value = value
+
+                    # Setting the best gain to the current one
+                    max_gain = GINIgain
+
+        return (best_feature, best_value)
+
+
+
+    def grow_tree(self,node):
+        """
+        Recursive method to create the decision tree
+        """
+        # Making a df from the data
+        df = node.X.copy()
+        df['Y'] = node.Y
+
+        # If there is GINI to be gained, we split further
+        if (node.depth < self.max_depth) and (node.n >= self.min_samples_split) and (node.n>self.min_samples_leaf):
+
+            # Getting the best split
+            best_feature, best_value = self.best_split(node)
+
+            if best_feature is not None:
+                # Saving the best split to the current node
+                node.split_feature = best_feature
+                node.split_value = best_value
+
+                # Getting the left and right nodes
+                left_df, right_df = df[df[best_feature] <= best_value].copy(
+                ), df[df[best_feature] > best_value].copy()
+
+                # Creating the left and right nodes
+                left = Node(
+                    
+                    left_df[self.features],
+                    left_df['Y'].values.tolist(),
+                    depth=node.depth + 1,
+                    node_type='left_node',
+                    rule=f"{best_feature} <= {round(best_value, 3)}"
+                )
+
+                node.left = left
+                self.grow_tree(node.left)
+
+                right = Node(
+                    right_df[self.features],
+                    right_df['Y'].values.tolist(),
+                    depth=node.depth + 1,
+                    node_type='right_node',
+                    rule=f"{best_feature} > {round(best_value, 3)}"
+                )
+
+                node.right = right
+                self.grow_tree(node.right)
+
+
+    def print_info(self, node ,width=4):
+        """
+        Method to print the infromation about the tree
+        """
+        # Defining the number of spaces 
+        const = int(node.depth * width ** 1.5)
+        spaces = "-" * const
+        
+        if node.node_type == 'root':
+            print("Root")
+        else:
+            print(f"|{spaces} Split rule: {node.rule}")
+        # print(f"{' ' * const}   | GINI impurity of the node: {round(node.gini_impurity, 2)}")
+        # print(f"{' ' * const}   | Class distribution in the node: {dict(node.counts)}")
+        # print(f"{' ' * const}   | Predicted class: {node.yhat}")   
+
+    def print_tree(self,node):
+        """
+        Prints the whole tree from the current node to the bottom
+        """
+        self.print_info(node) 
+        
+        if node.left is not None: 
+            self.print_tree(node.left)
+        
+        if node.right is not None:
+            self.print_tree(node.right)
+
+
+
+
+    def predict(self, X:pd.DataFrame):
+        """
+        Batch prediction method
+        """
         predictions = []
-        for row in sample:
-            node = self.root
-            while node.is_leaf is not True:
-                if row[node.col_index] < node.value:
-                    node = node.left
-                    continue
-                if row[node.col_index] >= node.value:
-                    node = node.right
-            predictions.append(node.value)
+
+        for _, x in X.iterrows():
+            values = {}
+            for feature in self.features:
+                values.update({feature: x[feature]})
+
+            # print(values)
+            predictions.append(self.predict_obs(values))
+        
+
         return predictions
 
+    def predict_obs(self, values: dict) -> int:
+        """
+        Method to predict the class given a set of features
+        """
+        cur_node = self.root
+        while cur_node.depth < self.max_depth:
+            # Traversing the nodes all the way to the bottom
+            
+            if cur_node.n < self.min_samples_split :
+                break 
 
-def accuracy(data):
-    dt = decision_tree_classifier(Criterion.GINI_IMPURITY)
-    tree = dt.fit(data)
-    print('<========= decision tree ===========>')
-    print(dt.traverse())
-    predictions = dt.predict(data[0:-1][0:-1])
-    true_values = [row[-1] for row in data]
-    return '{:1f}'.format(sum([t == p for t, p in zip(true_values, predictions)])/len(true_values) * 100) + '% accuracy'
+            if(cur_node.split_feature == None):
+                break
 
-
-def flower_to_id(value):
-    if value == 'Iris-virginica':
-        return 2
-    if value == 'Iris-versicolor':
-        return 0
-    if value == 'Iris-setosa':
-        return 1
-
-
-def get_data():
-    url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
-    values = requests.get(url).content.decode('utf-8').split('\n')
-    data_set = [val.split(',') for val in values]
-    data_df = pd.DataFrame(data=data_set, columns=[
-                           'sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'flower'])
-    data_df = data_df.dropna()
-    data_df[['sepal_length', 'sepal_width', 'petal_length', 'petal_width']] = data_df[[
-        'sepal_length', 'sepal_width', 'petal_length', 'petal_width']].astype('float')
-    data_df['flower'] = data_df['flower'].map(flower_to_id)
-    return data_df
-
-
-# data = get_data()
-# print(accuracy(data.to_numpy()))
+            best_feature = cur_node.split_feature
+            
+            best_value = cur_node.split_value
 
 
 
-        
+
+            if (values.get(best_feature) < best_value):
+                if cur_node.left is not None:
+                    cur_node = cur_node.left
+            else:
+                if cur_node.right is not None:
+                    cur_node = cur_node.right
+            
+        return cur_node.yhat
+
+
 if __name__ == '__main__':
     # Reading data
-    d = pd.read_csv("data/train.csv")[['Age', 'Fare', 'Survived']].dropna()
+    d = pd.read_csv("decision-tree/data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
+    d = d.assign(Sex=d.Sex.eq('male').astype(int))
 
     # Constructing the X and Y matrices
-    X = d[['Age', 'Sex']]
+    X = d[['Age', 'Sex', 'Fare', 'Pclass']]
     Y = d['Survived'].values.tolist()
 
     # Initiating the Node
-    root = Node(Y, X, max_depth=3, min_samples_split=100)
+    dt = decision_tree_classifier(
+        Criterion.GINI_IMPURITY, min_samples_split=10, max_depth=5, min_samples_leaf=1)
 
-    # Getting teh best split
-    root.grow_tree()
+    root_node  = dt.fit(X, Y)
 
-    # Printing the tree information 
-    root.print_tree()
+    
+    dt.print_tree(root_node)
 
-    # Predicting 
+    # # Getting the best split
+    # root.grow_tree()
+
+    # # Printing the tree information
+    # root.print_tree()
+
+    # Predicting
     Xsubset = X.copy()
-    Xsubset['yhat'] = root.predict(Xsubset)
-    print(Xsubset)
+    Xsubset['yhat'] = dt.predict(Xsubset)
+    yhat = Xsubset['yhat'].values
+
+    # print(Xsubset)
+    same  = 0
+    for i in range(len(yhat)):
+        if yhat[i] == Y[i]:
+            same += 1
+
+    print("ACCURACY: ",same/len(yhat))

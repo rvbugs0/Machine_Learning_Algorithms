@@ -73,34 +73,6 @@ class Node:
         self.best_feature = None 
         self.best_value = None 
 
-    @staticmethod
-    def GINI_impurity(y1_count: int, y2_count: int) -> float:
-        """
-        Given the observations of a binary class calculate the GINI impurity
-        """
-        # Ensuring the correct types
-        if y1_count is None:
-            y1_count = 0
-
-        if y2_count is None:
-            y2_count = 0
-
-        # Getting the total observations
-        n = y1_count + y2_count
-        
-        # If n is 0 then we return the lowest possible gini impurity
-        if n == 0:
-            return 0.0
-
-        # Getting the probability to see each of the classes
-        p1 = y1_count / n
-        p2 = y2_count / n
-        
-        # Calculating GINI 
-        gini = 1 - (p1 ** 2 + p2 ** 2)
-        
-        # Returning the gini impurity
-        return gini
 
     @staticmethod
     def ma(x: np.array, window: int) -> np.array:
@@ -307,7 +279,7 @@ if __name__ == '__main__':
     Y = d['Survived'].values.tolist()
 
     # Initiating the Node
-    root = Node(Y, X, max_depth=5, min_samples_split=10)
+    root = Node(Y, X, max_depth=3, min_samples_split=100)
 
     # Getting the best split
     root.grow_tree()

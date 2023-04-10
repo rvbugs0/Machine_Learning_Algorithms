@@ -71,27 +71,17 @@ class SigmoidLayer(Layer):
 class SoftmaxLayer(Layer):
     def __init__(self):
         super().__init__()
-        self.softmax_output = None
+        self.output = None
 
-    def forward(self, inputs):
-        exp_inputs = np.exp(inputs)
-        exp_inputs_sum = np.sum(exp_inputs, axis=1, keepdims=True)
-        self.softmax_output = exp_inputs / exp_inputs_sum
-        return self.softmax_output
+    def forward(self, x):
+        exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
+        self.output = exp_x / np.sum(exp_x, axis=1, keepdims=True)
+        return self.output
 
-    def backward(self, dout, learning_rate=0.001):
-        # dout is the gradient of loss w.r.t. the output of the layer
-        batch_size = self.softmax_output.shape[0]
-        dscores = np.empty_like(self.softmax_output)
-
-        for i in range(batch_size):
-            jac = np.diagflat(
-                self.softmax_output[i]) - np.outer(self.softmax_output[i], self.softmax_output[i])
-            dscores[i] = np.dot(dout[i], jac)
-
-        dscores /= batch_size
-        # print("Dscore", dscores)
-        return dscores
+    def backward(self, y_true, learning_rate=0.001):
+        grad = self.output - y_true
+        grad /= y_true.shape[0]
+        return grad
 
 
 class TanhLayer(Layer):
@@ -129,6 +119,9 @@ class CrossEntropyLoss:
         grad = -(self.y_true / self.y_pred) + (1 - self.y_true) / (1 - self.y_pred)
         grad /= self.y_true.shape[0]
         return grad
+
+
+
 
 
 

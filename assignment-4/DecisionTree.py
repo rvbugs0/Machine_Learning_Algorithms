@@ -69,6 +69,7 @@ class Node(object):
         return np.convolve(x, np.ones(window), 'valid') / window
 
 
+
 class decision_tree_classifier(object):
 
     def __init__(self, criterion: Criterion, min_samples_split=10,  max_depth=5, min_samples_leaf=1):
@@ -91,15 +92,24 @@ class decision_tree_classifier(object):
         return self.root
 
     def initialize_tree(self):
-        if self.criterion == Criterion.MISCLASSIFICATION_RATE:
-            pass
-        elif self.criterion == Criterion.GINI_IMPURITY:
-            root_node = Node(self.X, self.Y, depth=0,
-                             is_leaf=False)
-            self.grow_tree(root_node)
-            return root_node
-        elif self.criterion == Criterion.ENTROPY:
-            pass
+        root_node = Node(self.X, self.Y, depth=0,
+                            is_leaf=False)
+        self.grow_tree(root_node)
+        return root_node
+
+    def entropy(self, counts):
+        """
+        Calculates the entropy given a dictionary of class counts.
+        """
+        total = sum(counts.values())
+        entropy = 0
+        for count in counts.values():
+            probability = count / total
+            if probability > 0:
+                entropy += -probability * np.log2(probability)
+        return entropy
+
+
 
     def best_split(self, node):
         # Creating a dataset for spliting
@@ -174,7 +184,17 @@ class decision_tree_classifier(object):
         if (node.depth < self.max_depth) and (node.n >= self.min_samples_split) and (node.n>self.min_samples_leaf):
 
             # Getting the best split
-            best_feature, best_value = self.best_split(node)
+            best_feature, best_value =None,None
+
+            if self.criterion == Criterion.MISCLASSIFICATION_RATE:
+                pass
+            elif self.criterion == Criterion.GINI_IMPURITY:
+                best_feature, best_value = self.best_split(node)
+            elif self.criterion == Criterion.ENTROPY:
+                best_feature, best_value = self.best_split_entropy(node)
+
+
+            
 
             if best_feature is not None:
                 # Saving the best split to the current node
@@ -289,6 +309,60 @@ class decision_tree_classifier(object):
         return cur_node.yhat
 
 
+    def best_split_entropy(self, node):
+        """
+        Finds the best split based on entropy gain.
+        """
+        # Creating a dataset for splitting
+        df = node.X.copy()
+        df['Y'] = node.Y
+
+        # Finding which split yields the best entropy gain
+        max_gain = 0
+        best_feature = None
+        best_value = None
+
+        for feature in self.features:
+            # Dropping missing values
+            Xdf = df.dropna().sort_values(feature)
+
+            # Sorting the values and getting the rolling average
+            xmeans = node.ma(Xdf[feature].unique(), 2)
+
+            for value in xmeans:
+                # Splitting the dataset
+                left_counts = Counter(Xdf[Xdf[feature] < value]['Y'])
+                right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
+
+                # Getting the entropy gain for the split
+                entropy_gain = self.entropy_gain(left_counts, right_counts, node)
+
+                # Updating the best split if necessary
+                if entropy_gain > max_gain:
+                    max_gain = entropy_gain
+                    best_feature = feature
+                    best_value = value
+
+        return best_feature, best_value
+    
+
+    def entropy_gain(self, left_counts, right_counts, node):
+        """
+        Calculates the entropy gain for a given split using the left and right class counts.
+        """
+        n_left = sum(left_counts.values())
+        n_right = sum(right_counts.values())
+        n_total = n_left + n_right
+
+        # Calculating the weighted entropy
+        weighted_entropy = (n_left / n_total) * self.entropy(left_counts) + \
+                           (n_right / n_total) * self.entropy(right_counts)
+
+        # Calculating the entropy gain
+        entropy_gain = self.entropy(node.counts) - weighted_entropy
+        return entropy_gain
+
+
 if __name__ == '__main__':
     # Reading data
     d = pd.read_csv("decision-tree/data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
@@ -300,7 +374,7 @@ if __name__ == '__main__':
 
     # Initiating the Node
     dt = decision_tree_classifier(
-        Criterion.GINI_IMPURITY, min_samples_split=10, max_depth=5, min_samples_leaf=1)
+        Criterion.ENTROPY, min_samples_split=10, max_depth=5, min_samples_leaf=1)
 
     root_node  = dt.fit(X, Y)
 

@@ -12,7 +12,7 @@ class Criterion(Enum):
 
 
 class Node(object):
-    def __init__(self, X, Y, depth=0, is_leaf=False, node_type = "root",rule = ""):
+    def __init__(self, X, Y, depth=0, is_leaf=False, node_type="root", rule=""):
         self.X = X
         self.Y = Y
         self.n = len(self.Y)
@@ -23,12 +23,13 @@ class Node(object):
         self.left = None
         self.right = None
         self.node_type = node_type
-        self.rule =rule
+        self.rule = rule
         self.counts = Counter(Y)
-        counts_sorted = list(sorted(self.counts.items(), key=lambda item: item[1]))
+        counts_sorted = list(
+            sorted(self.counts.items(), key=lambda item: item[1]))
 
         # Getting the last item
-        # i.e. which has more number of occurences  
+        # i.e. which has more number of occurences
         yhat = None
         if len(counts_sorted) > 0:
             yhat = counts_sorted[-1][0]
@@ -69,7 +70,6 @@ class Node(object):
         return np.convolve(x, np.ones(window), 'valid') / window
 
 
-
 class decision_tree_classifier(object):
 
     def __init__(self, criterion: Criterion, min_samples_split=10,  max_depth=5, min_samples_leaf=1):
@@ -93,7 +93,7 @@ class decision_tree_classifier(object):
 
     def initialize_tree(self):
         root_node = Node(self.X, self.Y, depth=0,
-                            is_leaf=False)
+                         is_leaf=False)
         self.grow_tree(root_node)
         return root_node
 
@@ -108,8 +108,6 @@ class decision_tree_classifier(object):
             if probability > 0:
                 entropy += -probability * np.log2(probability)
         return entropy
-
-
 
     def best_split(self, node):
         # Creating a dataset for spliting
@@ -170,9 +168,7 @@ class decision_tree_classifier(object):
 
         return (best_feature, best_value)
 
-
-
-    def grow_tree(self,node):
+    def grow_tree(self, node):
         """
         Recursive method to create the decision tree
         """
@@ -181,20 +177,17 @@ class decision_tree_classifier(object):
         df['Y'] = node.Y
 
         # If there is GINI to be gained, we split further
-        if (node.depth < self.max_depth) and (node.n >= self.min_samples_split) and (node.n>self.min_samples_leaf):
+        if (node.depth < self.max_depth) and (node.n >= self.min_samples_split) and (node.n > self.min_samples_leaf):
 
             # Getting the best split
-            best_feature, best_value =None,None
+            best_feature, best_value = None, None
 
             if self.criterion == Criterion.MISCLASSIFICATION_RATE:
-                pass
+                best_feature, best_value = self.misclassification_split(node)
             elif self.criterion == Criterion.GINI_IMPURITY:
                 best_feature, best_value = self.best_split(node)
             elif self.criterion == Criterion.ENTROPY:
                 best_feature, best_value = self.best_split_entropy(node)
-
-
-            
 
             if best_feature is not None:
                 # Saving the best split to the current node
@@ -207,7 +200,7 @@ class decision_tree_classifier(object):
 
                 # Creating the left and right nodes
                 left = Node(
-                    
+
                     left_df[self.features],
                     left_df['Y'].values.tolist(),
                     depth=node.depth + 1,
@@ -229,39 +222,35 @@ class decision_tree_classifier(object):
                 node.right = right
                 self.grow_tree(node.right)
 
-
-    def print_info(self, node ,width=4):
+    def print_info(self, node, width=4):
         """
         Method to print the infromation about the tree
         """
-        # Defining the number of spaces 
+        # Defining the number of spaces
         const = int(node.depth * width ** 1.5)
         spaces = "-" * const
-        
+
         if node.node_type == 'root':
             print("Root")
         else:
             print(f"|{spaces} Split rule: {node.rule}")
         # print(f"{' ' * const}   | GINI impurity of the node: {round(node.gini_impurity, 2)}")
         # print(f"{' ' * const}   | Class distribution in the node: {dict(node.counts)}")
-        # print(f"{' ' * const}   | Predicted class: {node.yhat}")   
+        # print(f"{' ' * const}   | Predicted class: {node.yhat}")
 
-    def print_tree(self,node):
+    def print_tree(self, node):
         """
         Prints the whole tree from the current node to the bottom
         """
-        self.print_info(node) 
-        
-        if node.left is not None: 
+        self.print_info(node)
+
+        if node.left is not None:
             self.print_tree(node.left)
-        
+
         if node.right is not None:
             self.print_tree(node.right)
 
-
-
-
-    def predict(self, X:pd.DataFrame):
+    def predict(self, X: pd.DataFrame):
         """
         Batch prediction method
         """
@@ -274,7 +263,6 @@ class decision_tree_classifier(object):
 
             # print(values)
             predictions.append(self.predict_obs(values))
-        
 
         return predictions
 
@@ -285,19 +273,16 @@ class decision_tree_classifier(object):
         cur_node = self.root
         while cur_node.depth < self.max_depth:
             # Traversing the nodes all the way to the bottom
-            
-            if cur_node.n < self.min_samples_split :
-                break 
 
-            if(cur_node.split_feature == None):
+            if cur_node.n < self.min_samples_split:
+                break
+
+            if (cur_node.split_feature == None):
                 break
 
             best_feature = cur_node.split_feature
-            
+
             best_value = cur_node.split_value
-
-
-
 
             if (values.get(best_feature) < best_value):
                 if cur_node.left is not None:
@@ -305,9 +290,8 @@ class decision_tree_classifier(object):
             else:
                 if cur_node.right is not None:
                     cur_node = cur_node.right
-            
-        return cur_node.yhat
 
+        return cur_node.yhat
 
     def best_split_entropy(self, node):
         """
@@ -335,7 +319,8 @@ class decision_tree_classifier(object):
                 right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
 
                 # Getting the entropy gain for the split
-                entropy_gain = self.entropy_gain(left_counts, right_counts, node)
+                entropy_gain = self.entropy_gain(
+                    left_counts, right_counts, node)
 
                 # Updating the best split if necessary
                 if entropy_gain > max_gain:
@@ -344,7 +329,6 @@ class decision_tree_classifier(object):
                     best_value = value
 
         return best_feature, best_value
-    
 
     def entropy_gain(self, left_counts, right_counts, node):
         """
@@ -362,10 +346,72 @@ class decision_tree_classifier(object):
         entropy_gain = self.entropy(node.counts) - weighted_entropy
         return entropy_gain
 
+    def misclassification_split(self, node):
+        # Creating a dataset for splitting
+        df = node.X.copy()
+        df['Y'] = node.Y
+
+        # Getting the misclassification rate for the base input
+        misclassification_base = 1 - max(node.counts.values()) / len(node.Y)
+
+        # Finding which split yields the best misclassification rate reduction
+        max_reduction = 0
+
+        # Default best feature and split
+        best_feature = None
+        best_value = None
+
+        for feature in self.features:
+            # Dropping missing values
+            Xdf = df.dropna().sort_values(feature)
+
+            # Sorting the values and getting the rolling average
+            xmeans = node.ma(Xdf[feature].unique(), 2)
+
+            for value in xmeans:
+                # Splitting the dataset
+                left_counts = Counter(Xdf[Xdf[feature] < value]['Y'])
+                right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
+
+                # Getting the Y distribution from the dicts
+                y0_left, y1_left, y0_right, y1_right = left_counts.get(0, 0), left_counts.get(
+                    1, 0), right_counts.get(0, 0), right_counts.get(1, 0)
+
+                # Getting the misclassification rate for the left and right splits
+                misclassification_left = 1 - \
+                    max(y0_left, y1_left) / (y0_left + y1_left + 0.000000001)
+                misclassification_right = 1 - \
+                    max(y0_right, y1_right) / (y0_right + y1_right + 0.000000001)
+
+                # Getting the observation count from the left and right data splits
+                n_left = y0_left + y1_left
+                n_right = y0_right + y1_right
+
+                # Calculating the weights for each of the nodes
+                w_left = n_left / (n_left + n_right)
+                w_right = n_right / (n_left + n_right)
+
+                # Calculating the weighted misclassification rate reduction
+                wMisclassification = w_left * (misclassification_base - misclassification_left) + w_right * (
+                    misclassification_base - misclassification_right)
+
+                # Checking if this split has higher reduction than the current max
+                if wMisclassification > max_reduction:
+                    max_reduction = wMisclassification
+                    best_feature = feature
+                    best_value = value
+
+        # If no split yields reduction, return None
+        if best_feature is None or best_value is None:
+            return None, None
+
+        return best_feature, best_value
+
 
 if __name__ == '__main__':
     # Reading data
-    d = pd.read_csv("decision-tree/data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
+    d = pd.read_csv(
+        "decision-tree/data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
     d = d.assign(Sex=d.Sex.eq('male').astype(int))
 
     # Constructing the X and Y matrices
@@ -374,18 +420,9 @@ if __name__ == '__main__':
 
     # Initiating the Node
     dt = decision_tree_classifier(
-        Criterion.ENTROPY, min_samples_split=10, max_depth=5, min_samples_leaf=1)
-
-    root_node  = dt.fit(X, Y)
-
-    
+        Criterion.MISCLASSIFICATION_RATE, min_samples_split=10, max_depth=5, min_samples_leaf=1)
+    root_node = dt.fit(X, Y)
     dt.print_tree(root_node)
-
-    # # Getting the best split
-    # root.grow_tree()
-
-    # # Printing the tree information
-    # root.print_tree()
 
     # Predicting
     Xsubset = X.copy()
@@ -393,9 +430,9 @@ if __name__ == '__main__':
     yhat = Xsubset['yhat'].values
 
     # print(Xsubset)
-    same  = 0
+    same = 0
     for i in range(len(yhat)):
         if yhat[i] == Y[i]:
             same += 1
 
-    print("ACCURACY: ",same/len(yhat))
+    print("ACCURACY: ", same/len(yhat))

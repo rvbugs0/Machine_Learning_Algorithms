@@ -72,7 +72,7 @@ class Node(object):
 
 class decision_tree_classifier(object):
 
-    def __init__(self, criterion: Criterion, min_samples_split=10,  max_depth=5, min_samples_leaf=1):
+    def __init__(self, criterion: Criterion =Criterion.GINI_IMPURITY, min_samples_split=10,  max_depth=5, min_samples_leaf=1):
         self.root = None
         self.min_samples_split = min_samples_split
         self.min_samples_leaf = min_samples_leaf

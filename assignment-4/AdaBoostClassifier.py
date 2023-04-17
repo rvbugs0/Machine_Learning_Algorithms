@@ -5,9 +5,9 @@ from DecisionTree import decision_tree_classifier
 
 
 class AdaBoostClassifier:
-    def __init__(self, n_estimators=10, learning_rate=0.01):
+    def __init__(self, num_learners=10, learning_rate=0.01):
 
-        self.n_estimators = n_estimators
+        self.num_learners = num_learners
         self.learning_rate = learning_rate
         self.X = None
         self.Y = None
@@ -22,9 +22,9 @@ class AdaBoostClassifier:
         self.X['misclassified'] = np.zeros(len(X))
         self.X['pred'] = np.zeros(len(X))
 
-        for i in range(1, self.n_estimators+1):
+        for i in range(1, self.num_learners+1):
 
-            random.seed(i*10)
+            random.seed(None)
 
             classifier = decision_tree_classifier(max_depth=1)
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     import pandas as pd
     # Reading data
     d = pd.read_csv(
-        "decision-tree/data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
+        "data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
     d = d.assign(Sex=d.Sex.eq('male').astype(int))
 
     # Constructing the X and Y matrices

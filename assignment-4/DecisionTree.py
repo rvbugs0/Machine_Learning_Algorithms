@@ -28,46 +28,40 @@ class Node(object):
         counts_sorted = list(
             sorted(self.counts.items(), key=lambda item: item[1]))
 
-        # Getting the last item
-        # i.e. which has more number of occurences
         yhat = None
         if len(counts_sorted) > 0:
             yhat = counts_sorted[-1][0]
         self.yhat = yhat
 
     def gini(self):
-        # calculates gini for base (without splits)
+        
         counts = Counter(self.Y)
-        class_1_count, class_2_count = counts.get(
+        c1, c2 = counts.get(
             0, 0), counts.get(1, 0)
-        # Getting the GINI impurity
-        return self.gini_impurity(class_1_count, class_2_count)
+        
+        return self.gini_impurity(c1, c2)
 
-    def gini_impurity(self, class_1_count, class_2_count):
-        if class_1_count is None:
-            class_1_count = 0
+    def gini_impurity(self, count_of_class_1, count_of_class_2):
+        if count_of_class_1 is None:
+            count_of_class_1 = 0
 
-        if class_2_count is None:
-            class_2_count = 0
+        if count_of_class_2 is None:
+            count_of_class_2 = 0
 
-        if class_1_count+class_2_count == 0:
+        if count_of_class_1 + count_of_class_2 == 0:
             return 0.0
 
-        # Getting the probability to see each of the classes
-        p1 = class_1_count / (class_1_count+class_2_count)
-        p2 = class_2_count / (class_1_count+class_2_count)
+        probability_of_class_1 = count_of_class_1 / (count_of_class_1 + count_of_class_2)
+        probability_of_class_2 = count_of_class_2 / (count_of_class_1 + count_of_class_2)
 
-        # Calculating GINI
-        gini = 1 - (p1 ** 2 + p2 ** 2)
+        gini_impurity = 1 - (probability_of_class_1 ** 2 + probability_of_class_2 ** 2)
 
-        # Returning the gini impurity
-        return gini
+        return gini_impurity
 
-    def ma(self, x: np.array, window: int) -> np.array:
-        """
-        Calculates the moving average of the given list. 
-        """
-        return np.convolve(x, np.ones(window), 'valid') / window
+    def average(self, x: np.array, window: int) -> np.array:
+        cumsum = np.cumsum(x)
+        cumsum[window:] = cumsum[window:] - cumsum[:-window]
+        return cumsum[window - 1:] / window
 
 
 class decision_tree_classifier(object):
@@ -98,9 +92,6 @@ class decision_tree_classifier(object):
         return root_node
 
     def entropy(self, counts):
-        """
-        Calculates the entropy given a dictionary of class counts.
-        """
         total = sum(counts.values())
         entropy = 0
         for count in counts.values():
@@ -110,76 +101,77 @@ class decision_tree_classifier(object):
         return entropy
 
     def best_split(self, node):
-        # Creating a dataset for spliting
-        df = node.X.copy()
-        df['Y'] = node.Y
+        
+        d = node.X.copy()
+        d['Y'] = node.Y
 
-        # Getting the GINI impurity for the base input
-        GINI_base = node.gini()
+        
+        b_gini = node.gini()
 
-        # Finding which split yields the best GINI gain
-        max_gain = 0
+        
+        m_gain = 0
 
-        # Default best feature and split
-        best_feature = None
-        best_value = None
+        
+        b_feature = None
+        b_value = None
 
-        for feature in self.features:
-            # Droping missing values
-            Xdf = df.dropna().sort_values(feature)
+        for f in self.features:
+            
+            df = d.dropna().sort_values(f)
 
-            # Sorting the values and getting the rolling average
-            xmeans = node.ma(Xdf[feature].unique(), 2)
+            
+            m = node.average(df[f].unique(), 2)
 
-            for value in xmeans:
-                # Spliting the dataset
-                left_counts = Counter(Xdf[Xdf[feature] < value]['Y'])
-                right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
+            for v in m:
+                
+                left_d = df[df[f] < v]
+                right_d = df[df[f] >= v]
 
-                # Getting the Y distribution from the dicts
-                y0_left, y1_left, y0_right, y1_right = left_counts.get(0, 0), left_counts.get(
-                    1, 0), right_counts.get(0, 0), right_counts.get(1, 0)
+                
+                lc = left_d['Y'].value_counts().to_dict()
+                rc = right_d['Y'].value_counts().to_dict()
 
-                # Getting the left and right gini impurities
-                gini_left = node.gini_impurity(y0_left, y1_left)
-                gini_right = node.gini_impurity(y0_right, y1_right)
+                y0l, y1l = lc.get(0, 0), lc.get(1, 0)
+                y0r, y1r = rc.get(0, 0), rc.get(1, 0)
 
-                # Getting the obs count from the left and the right data splits
-                n_left = y0_left + y1_left
-                n_right = y0_right + y1_right
+                
+                gini_l = node.gini_impurity(y0l, y1l)
+                gini_r = node.gini_impurity(y0r, y1r)
 
-                # Calculating the weights for each of the nodes
-                w_left = n_left / (n_left + n_right)
-                w_right = n_right / (n_left + n_right)
+                
+                n_l = len(left_d)
+                n_r = len(right_d)
 
-                # Calculating the weighted GINI impurity
-                wGINI = w_left * gini_left + w_right * gini_right
+                
+                w_l = n_l / (n_l + n_r)
+                w_r = n_r / (n_l + n_r)
 
-                # Calculating the GINI gain
-                GINIgain = GINI_base - wGINI
+                
+                w_gini = w_l * gini_l + w_r * gini_r
 
-                # Checking if this is the best split so far
-                if GINIgain > max_gain:
-                    best_feature = feature
-                    best_value = value
+            
+                g_gain = b_gini - w_gini
 
-                    # Setting the best gain to the current one
-                    max_gain = GINIgain
+                
+                if g_gain > m_gain:
+                    b_feature = f
+                    b_value = v
 
-        return (best_feature, best_value)
+                    
+                    m_gain = g_gain
+
+        return b_feature, b_value
+
 
     def grow_tree(self, node):
-        """
-        Recursive method to create the decision tree
-        """
-        # Making a df from the data
+
         df = node.X.copy()
         df['Y'] = node.Y
 
-        # If there is GINI to be gained, we split further
-        if (node.depth < self.max_depth) and (node.n >= self.min_samples_split) and (node.n > self.min_samples_leaf):
 
-            # Getting the best split
+        if (node.depth < self.max_depth) and (node.n >= self.min_samples_split) :
+
+            
             best_feature, best_value = None, None
 
             if self.criterion == Criterion.MISCLASSIFICATION_RATE:
@@ -190,42 +182,46 @@ class decision_tree_classifier(object):
                 best_feature, best_value = self.best_split_entropy(node)
 
             if best_feature is not None:
-                # Saving the best split to the current node
-                node.split_feature = best_feature
-                node.split_value = best_value
+                
 
-                # Getting the left and right nodes
+                
                 left_df, right_df = df[df[best_feature] <= best_value].copy(
                 ), df[df[best_feature] > best_value].copy()
 
-                # Creating the left and right nodes
-                left = Node(
 
-                    left_df[self.features],
-                    left_df['Y'].values.tolist(),
-                    depth=node.depth + 1,
-                    node_type='left_node',
-                    rule=f"{best_feature} <= {round(best_value, 3)}"
-                )
 
-                node.left = left
-                self.grow_tree(node.left)
+                if(left_df.shape[0]>=self.min_samples_leaf and right_df.shape[0]>=self.min_samples_leaf):
+                    
+                    node.split_feature = best_feature
+                    node.split_value = best_value
+                    left = Node(
 
-                right = Node(
-                    right_df[self.features],
-                    right_df['Y'].values.tolist(),
-                    depth=node.depth + 1,
-                    node_type='right_node',
-                    rule=f"{best_feature} > {round(best_value, 3)}"
-                )
+                        left_df[self.features],
+                        left_df['Y'].values.tolist(),
+                        depth=node.depth + 1,
+                        node_type='left_node',
+                        rule=f"{best_feature} <= {round(best_value, 3)}"
+                    )
 
-                node.right = right
-                self.grow_tree(node.right)
+                    node.left = left
+                    self.grow_tree(node.left)
 
-    def print_info(self, node, width=4):
-        """
-        Method to print the infromation about the tree
-        """
+                
+                    
+
+                    right = Node(
+                        right_df[self.features],
+                        right_df['Y'].values.tolist(),
+                        depth=node.depth + 1,
+                        node_type='right_node',
+                        rule=f"{best_feature} > {round(best_value, 3)}"
+                    )
+
+                    node.right = right
+                    self.grow_tree(node.right)
+
+    def print_node(self, node, width=4):
+        
         # Defining the number of spaces
         const = int(node.depth * width ** 1.5)
         spaces = "-" * const
@@ -233,16 +229,11 @@ class decision_tree_classifier(object):
         if node.node_type == 'root':
             print("Root")
         else:
-            print(f"|{spaces} Split rule: {node.rule}")
-        # print(f"{' ' * const}   | GINI impurity of the node: {round(node.gini_impurity, 2)}")
-        # print(f"{' ' * const}   | Class distribution in the node: {dict(node.counts)}")
-        # print(f"{' ' * const}   | Predicted class: {node.yhat}")
+            print(f"{'-' * const} Split rule: {node.rule}")
+
 
     def print_tree(self, node):
-        """
-        Prints the whole tree from the current node to the bottom
-        """
-        self.print_info(node)
+        self.print_node(node)
 
         if node.left is not None:
             self.print_tree(node.left)
@@ -251,9 +242,6 @@ class decision_tree_classifier(object):
             self.print_tree(node.right)
 
     def predict(self, X: pd.DataFrame):
-        """
-        Batch prediction method
-        """
         predictions = []
 
         for _, x in X.iterrows():
@@ -264,15 +252,11 @@ class decision_tree_classifier(object):
             # print(values)
             predictions.append(self.predict_obs(values))
 
-        return predictions
+        return np.array(predictions)
 
     def predict_obs(self, values: dict) -> int:
-        """
-        Method to predict the class given a set of features
-        """
         cur_node = self.root
         while cur_node.depth < self.max_depth:
-            # Traversing the nodes all the way to the bottom
 
             if cur_node.n < self.min_samples_split:
                 break
@@ -294,35 +278,28 @@ class decision_tree_classifier(object):
         return cur_node.yhat
 
     def best_split_entropy(self, node):
-        """
-        Finds the best split based on entropy gain.
-        """
-        # Creating a dataset for splitting
         df = node.X.copy()
         df['Y'] = node.Y
 
-        # Finding which split yields the best entropy gain
         max_gain = 0
         best_feature = None
         best_value = None
 
         for feature in self.features:
-            # Dropping missing values
             Xdf = df.dropna().sort_values(feature)
 
-            # Sorting the values and getting the rolling average
-            xmeans = node.ma(Xdf[feature].unique(), 2)
+            xmeans = node.average(Xdf[feature].unique(), 2)
 
             for value in xmeans:
-                # Splitting the dataset
+                
                 left_counts = Counter(Xdf[Xdf[feature] < value]['Y'])
                 right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
 
-                # Getting the entropy gain for the split
+                
                 entropy_gain = self.entropy_gain(
                     left_counts, right_counts, node)
 
-                # Updating the best split if necessary
+                
                 if entropy_gain > max_gain:
                     max_gain = entropy_gain
                     best_feature = feature
@@ -331,77 +308,75 @@ class decision_tree_classifier(object):
         return best_feature, best_value
 
     def entropy_gain(self, left_counts, right_counts, node):
-        """
-        Calculates the entropy gain for a given split using the left and right class counts.
-        """
+        
         n_left = sum(left_counts.values())
         n_right = sum(right_counts.values())
         n_total = n_left + n_right
 
-        # Calculating the weighted entropy
+        
         weighted_entropy = (n_left / n_total) * self.entropy(left_counts) + \
                            (n_right / n_total) * self.entropy(right_counts)
 
-        # Calculating the entropy gain
+        
         entropy_gain = self.entropy(node.counts) - weighted_entropy
         return entropy_gain
 
     def misclassification_split(self, node):
-        # Creating a dataset for splitting
+        
         df = node.X.copy()
         df['Y'] = node.Y
 
-        # Getting the misclassification rate for the base input
+        
         misclassification_base = 1 - max(node.counts.values()) / len(node.Y)
 
-        # Finding which split yields the best misclassification rate reduction
+        
         max_reduction = 0
 
-        # Default best feature and split
+        
         best_feature = None
         best_value = None
 
         for feature in self.features:
-            # Dropping missing values
+            
             Xdf = df.dropna().sort_values(feature)
 
-            # Sorting the values and getting the rolling average
-            xmeans = node.ma(Xdf[feature].unique(), 2)
+            
+            xmeans = node.average(Xdf[feature].unique(), 2)
 
             for value in xmeans:
-                # Splitting the dataset
+                
                 left_counts = Counter(Xdf[Xdf[feature] < value]['Y'])
                 right_counts = Counter(Xdf[Xdf[feature] >= value]['Y'])
 
-                # Getting the Y distribution from the dicts
+                
                 y0_left, y1_left, y0_right, y1_right = left_counts.get(0, 0), left_counts.get(
                     1, 0), right_counts.get(0, 0), right_counts.get(1, 0)
 
-                # Getting the misclassification rate for the left and right splits
+                
                 misclassification_left = 1 - \
                     max(y0_left, y1_left) / (y0_left + y1_left + 0.000000001)
                 misclassification_right = 1 - \
                     max(y0_right, y1_right) / (y0_right + y1_right + 0.000000001)
 
-                # Getting the observation count from the left and right data splits
+                
                 n_left = y0_left + y1_left
                 n_right = y0_right + y1_right
 
-                # Calculating the weights for each of the nodes
+                
                 w_left = n_left / (n_left + n_right)
                 w_right = n_right / (n_left + n_right)
 
-                # Calculating the weighted misclassification rate reduction
+                
                 wMisclassification = w_left * (misclassification_base - misclassification_left) + w_right * (
                     misclassification_base - misclassification_right)
 
-                # Checking if this split has higher reduction than the current max
+                
                 if wMisclassification > max_reduction:
                     max_reduction = wMisclassification
                     best_feature = feature
                     best_value = value
 
-        # If no split yields reduction, return None
+        
         if best_feature is None or best_value is None:
             return None, None
 
@@ -411,7 +386,7 @@ class decision_tree_classifier(object):
 if __name__ == '__main__':
     # Reading data
     d = pd.read_csv(
-        "decision-tree/data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
+        "data/train.csv")[['Age', 'Sex', 'Fare', 'Pclass', 'Survived']].dropna()
     d = d.assign(Sex=d.Sex.eq('male').astype(int))
 
     # Constructing the X and Y matrices
@@ -419,8 +394,9 @@ if __name__ == '__main__':
     Y = d['Survived'].values.tolist()
 
     # Initiating the Node
+
     dt = decision_tree_classifier(
-        Criterion.MISCLASSIFICATION_RATE, min_samples_split=10, max_depth=5, min_samples_leaf=1)
+        Criterion.ENTROPY, min_samples_split=10, max_depth=5, min_samples_leaf=1)
     root_node = dt.fit(X, Y)
     dt.print_tree(root_node)
 

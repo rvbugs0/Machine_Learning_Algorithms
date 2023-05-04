@@ -1,0 +1,437 @@
+{
+  "build": "py311hecd8cb5_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/osx-64",
+  "constrains": [],
+  "depends": [
+    "python >=3.11,<3.12.0a0"
+  ],
+  "extracted_package_dir": "/Users/raviailani/opt/anaconda3/pkgs/spacy-legacy-3.0.9-py311hecd8cb5_0",
+  "features": "",
+  "files": [
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/LICENSE",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/METADATA",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/RECORD",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/WHEEL",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/entry_points.txt",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/zip-safe",
+    "lib/python3.11/site-packages/spacy_legacy/__init__.py",
+    "lib/python3.11/site-packages/spacy_legacy/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/__pycache__/loggers.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__init__.py",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/entity_linker.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/parser.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/tagger.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/textcat.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/tok2vec.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/entity_linker.py",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/parser.py",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/tagger.py",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/textcat.py",
+    "lib/python3.11/site-packages/spacy_legacy/architectures/tok2vec.py",
+    "lib/python3.11/site-packages/spacy_legacy/layers/__init__.py",
+    "lib/python3.11/site-packages/spacy_legacy/layers/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/layers/__pycache__/staticvectors_v1.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/layers/staticvectors_v1.py",
+    "lib/python3.11/site-packages/spacy_legacy/loggers.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/__init__.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/test_layer.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/test_legacy.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/test_logger.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/parser/__init__.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/parser/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/parser/__pycache__/test_parser.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/parser/test_parser.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__init__.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/test_tagger.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/test_textcat.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/test_tok2vec.cpython-311.pyc",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/test_tagger.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/test_textcat.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/test_tok2vec.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/test_layer.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/test_legacy.py",
+    "lib/python3.11/site-packages/spacy_legacy/tests/test_logger.py"
+  ],
+  "fn": "spacy-legacy-3.0.9-py311hecd8cb5_0.conda",
+  "legacy_bz2_md5": "0a1f24131ab1b83014a56b3f9b090246",
+  "license": "MIT",
+  "license_family": "MIT",
+  "link": {
+    "source": "/Users/raviailani/opt/anaconda3/pkgs/spacy-legacy-3.0.9-py311hecd8cb5_0",
+    "type": 1
+  },
+  "md5": "a63312045b89994e2870da21c95a243a",
+  "name": "spacy-legacy",
+  "package_tarball_full_path": "/Users/raviailani/opt/anaconda3/pkgs/spacy-legacy-3.0.9-py311hecd8cb5_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "95437f29c5577d43e50a0c6a5b6e74b55984e41661d1e43e32cbafa3ca557099",
+        "sha256_in_prefix": "95437f29c5577d43e50a0c6a5b6e74b55984e41661d1e43e32cbafa3ca557099",
+        "size_in_bytes": 1073
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "8ccef074364b735c73d34d0d413a06726bc5214efaab4e66d4f475d78f89062f",
+        "sha256_in_prefix": "8ccef074364b735c73d34d0d413a06726bc5214efaab4e66d4f475d78f89062f",
+        "size_in_bytes": 2817
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "6a4a3d43dc127c18a8d24fa5a6c4c75f2ac40de89b6c64eb15cfa73827958c05",
+        "sha256_in_prefix": "6a4a3d43dc127c18a8d24fa5a6c4c75f2ac40de89b6c64eb15cfa73827958c05",
+        "size_in_bytes": 4050
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "cfd8f4c406bf26650a3299b3ef62b464600b48cfe7fb04159866e5797c765478",
+        "sha256_in_prefix": "cfd8f4c406bf26650a3299b3ef62b464600b48cfe7fb04159866e5797c765478",
+        "size_in_bytes": 110
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "98b106865b1211acf6273ccd5c4965303fecec55bc211332e3f7f8155ef94775",
+        "sha256_in_prefix": "98b106865b1211acf6273ccd5c4965303fecec55bc211332e3f7f8155ef94775",
+        "size_in_bytes": 90
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/entry_points.txt",
+        "path_type": "hardlink",
+        "sha256": "9dec8b8170de772c3d6bb0a4e4d220f84e51abb9cf98f1ee24dceca078da6173",
+        "sha256_in_prefix": "9dec8b8170de772c3d6bb0a4e4d220f84e51abb9cf98f1ee24dceca078da6173",
+        "size_in_bytes": 1222
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "e011e168fd1330fb040781d339b7c60edab03117928fe8b2d45096e79e7f8bfe",
+        "sha256_in_prefix": "e011e168fd1330fb040781d339b7c60edab03117928fe8b2d45096e79e7f8bfe",
+        "size_in_bytes": 13
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy-3.0.9.dist-info/zip-safe",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "c033a6a2f5685092dd33276f689d6a5d5c329f2030e50ae96da13ff1ec7ff9a1",
+        "sha256_in_prefix": "c033a6a2f5685092dd33276f689d6a5d5c329f2030e50ae96da13ff1ec7ff9a1",
+        "size_in_bytes": 162
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/__pycache__/loggers.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "40a30bfc05fbd5da1efc2c9f371092cf78e97098e63b6cdf9beb26d9161aa2be",
+        "sha256_in_prefix": "40a30bfc05fbd5da1efc2c9f371092cf78e97098e63b6cdf9beb26d9161aa2be",
+        "size_in_bytes": 3866
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "f955bee009fdb8d82bb9095be1ecaafbdcb13cdfbb8a66c98599ec7bd4e66fb3",
+        "sha256_in_prefix": "f955bee009fdb8d82bb9095be1ecaafbdcb13cdfbb8a66c98599ec7bd4e66fb3",
+        "size_in_bytes": 176
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/entity_linker.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "eef3e21432e8cb73138cf071feae7458bcc3a473be95599e943881acc140af48",
+        "sha256_in_prefix": "eef3e21432e8cb73138cf071feae7458bcc3a473be95599e943881acc140af48",
+        "size_in_bytes": 2171
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/parser.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "f0b7b252e282cd6b4349564093dad53f87a554a8d692631f3aac8edfdf9c5040",
+        "sha256_in_prefix": "f0b7b252e282cd6b4349564093dad53f87a554a8d692631f3aac8edfdf9c5040",
+        "size_in_bytes": 5255
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/tagger.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "5131caeffcb72aed84029977ae4c53a136de0a719072b153e27b12dc7b3e5519",
+        "sha256_in_prefix": "5131caeffcb72aed84029977ae4c53a136de0a719072b153e27b12dc7b3e5519",
+        "size_in_bytes": 2101
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/textcat.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "52d04b4304e2595e870c55b50f0693b7eaf8927a481d751e7501adfe6ffe40b5",
+        "sha256_in_prefix": "52d04b4304e2595e870c55b50f0693b7eaf8927a481d751e7501adfe6ffe40b5",
+        "size_in_bytes": 9828
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/__pycache__/tok2vec.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "a8fb2bcd376f69ac3897906e053f13d504e68c8121aca952c65d3a97fd3b7f34",
+        "sha256_in_prefix": "a8fb2bcd376f69ac3897906e053f13d504e68c8121aca952c65d3a97fd3b7f34",
+        "size_in_bytes": 17054
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/entity_linker.py",
+        "path_type": "hardlink",
+        "sha256": "b4250f928d5469fcde37f32e132b5d3850b6a59d8d8a48d9ccc95abec4cf22ce",
+        "sha256_in_prefix": "b4250f928d5469fcde37f32e132b5d3850b6a59d8d8a48d9ccc95abec4cf22ce",
+        "size_in_bytes": 1162
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/parser.py",
+        "path_type": "hardlink",
+        "sha256": "7ed28b5751253f6bb1e869dc64433a66a11f5999c881161e572fe93fc452b5ab",
+        "sha256_in_prefix": "7ed28b5751253f6bb1e869dc64433a66a11f5999c881161e572fe93fc452b5ab",
+        "size_in_bytes": 3165
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/tagger.py",
+        "path_type": "hardlink",
+        "sha256": "6c0ec5d24f7155c319217397e5af5e82bf25460a60c073747972213b7293acd4",
+        "sha256_in_prefix": "6c0ec5d24f7155c319217397e5af5e82bf25460a60c073747972213b7293acd4",
+        "size_in_bytes": 1298
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/textcat.py",
+        "path_type": "hardlink",
+        "sha256": "e9da21b4569636c7200d7cd438379f3dd2a58339a3d8bd2141ad343d5f0172bd",
+        "sha256_in_prefix": "e9da21b4569636c7200d7cd438379f3dd2a58339a3d8bd2141ad343d5f0172bd",
+        "size_in_bytes": 6911
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/architectures/tok2vec.py",
+        "path_type": "hardlink",
+        "sha256": "b8c9a26183b82d11849af8ea38267dbbe27808c53c1654a99a1fa0d6a98cc52b",
+        "sha256_in_prefix": "b8c9a26183b82d11849af8ea38267dbbe27808c53c1654a99a1fa0d6a98cc52b",
+        "size_in_bytes": 13830
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/layers/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/layers/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "d22bebbf83165752c3b62161dfa8d3854a727e7948ba4f386eec4eb5cfdd43cb",
+        "sha256_in_prefix": "d22bebbf83165752c3b62161dfa8d3854a727e7948ba4f386eec4eb5cfdd43cb",
+        "size_in_bytes": 169
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/layers/__pycache__/staticvectors_v1.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "3e4667e9856de2d991fbbd2e4e44e7389708f376e2a9cf584aec5fb8d310702d",
+        "sha256_in_prefix": "3e4667e9856de2d991fbbd2e4e44e7389708f376e2a9cf584aec5fb8d310702d",
+        "size_in_bytes": 7222
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/layers/staticvectors_v1.py",
+        "path_type": "hardlink",
+        "sha256": "d87d9663e3ef2f74056aa1f43b1a410c3b997ea3221f16650bf88471b9fccc26",
+        "sha256_in_prefix": "d87d9663e3ef2f74056aa1f43b1a410c3b997ea3221f16650bf88471b9fccc26",
+        "size_in_bytes": 3176
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/loggers.py",
+        "path_type": "hardlink",
+        "sha256": "3f0416dcda0bc9c1353aa2e3cc2c4fcc3302bb0cd4fbdd6dd5366fce044471b7",
+        "sha256_in_prefix": "3f0416dcda0bc9c1353aa2e3cc2c4fcc3302bb0cd4fbdd6dd5366fce044471b7",
+        "size_in_bytes": 1698
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "a8c69116b9355433016bb892ca587fa81a359c3858cccec7969866604b0fca79",
+        "sha256_in_prefix": "a8c69116b9355433016bb892ca587fa81a359c3858cccec7969866604b0fca79",
+        "size_in_bytes": 168
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/test_layer.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "adfeb9433593265796ed2b4017905b337949bc0e686b811d9f0e20a0fdf8433e",
+        "sha256_in_prefix": "adfeb9433593265796ed2b4017905b337949bc0e686b811d9f0e20a0fdf8433e",
+        "size_in_bytes": 1436
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/test_legacy.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "819b0ea7a424f72c39800901b3f43ecb0ac71c381cc4ff2768f74118ca7cda45",
+        "sha256_in_prefix": "819b0ea7a424f72c39800901b3f43ecb0ac71c381cc4ff2768f74118ca7cda45",
+        "size_in_bytes": 1227
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/__pycache__/test_logger.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "51efeb5104a2c05f9a92f8860b777b3e4ca38a196fd44c1a5fd0c5f2b1f1abb9",
+        "sha256_in_prefix": "51efeb5104a2c05f9a92f8860b777b3e4ca38a196fd44c1a5fd0c5f2b1f1abb9",
+        "size_in_bytes": 441
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/parser/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/parser/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "c4ed9edb12e952ab0d9373018eac16b4f579d36268a457443039d8c3a43ee78c",
+        "sha256_in_prefix": "c4ed9edb12e952ab0d9373018eac16b4f579d36268a457443039d8c3a43ee78c",
+        "size_in_bytes": 175
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/parser/__pycache__/test_parser.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "0e8769816b85e082442d91014d5d415ae2d6d5fbab6a03cb03330397529e927a",
+        "sha256_in_prefix": "0e8769816b85e082442d91014d5d415ae2d6d5fbab6a03cb03330397529e927a",
+        "size_in_bytes": 2748
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/parser/test_parser.py",
+        "path_type": "hardlink",
+        "sha256": "1dec2a4555a5c4ffb6319786a1117c3ec0ef54a21bb5d0cc155588d95a8028e7",
+        "sha256_in_prefix": "1dec2a4555a5c4ffb6319786a1117c3ec0ef54a21bb5d0cc155588d95a8028e7",
+        "size_in_bytes": 1817
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "4cab8b1a87cd145a087e36f2cf0ec7fdff5197ce4a7afb02c5782467f8ca5454",
+        "sha256_in_prefix": "4cab8b1a87cd145a087e36f2cf0ec7fdff5197ce4a7afb02c5782467f8ca5454",
+        "size_in_bytes": 177
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/test_tagger.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "48e0ab185c1835937980a34fc08812099e2aee3a2464f5073ff349dd51c9236c",
+        "sha256_in_prefix": "48e0ab185c1835937980a34fc08812099e2aee3a2464f5073ff349dd51c9236c",
+        "size_in_bytes": 2816
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/test_textcat.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "15a738d599605e73d3d632a826d69f67edf9469539923291eb8255863b2dde78",
+        "sha256_in_prefix": "15a738d599605e73d3d632a826d69f67edf9469539923291eb8255863b2dde78",
+        "size_in_bytes": 3227
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/__pycache__/test_tok2vec.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "57c0d67216e1cb414b1d57f68436bb7fc76234ca2ee89decd6182ed336c4dacb",
+        "sha256_in_prefix": "57c0d67216e1cb414b1d57f68436bb7fc76234ca2ee89decd6182ed336c4dacb",
+        "size_in_bytes": 2504
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/test_tagger.py",
+        "path_type": "hardlink",
+        "sha256": "d61c77ff2934f3de1017c5037b303a0e13daa3ace930e8358de4895a801fc352",
+        "sha256_in_prefix": "d61c77ff2934f3de1017c5037b303a0e13daa3ace930e8358de4895a801fc352",
+        "size_in_bytes": 1594
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/test_textcat.py",
+        "path_type": "hardlink",
+        "sha256": "4081fe1691ce2c56bb91d8acf7754f4c0cbd77663f21990c7f8a64dc0eff98cd",
+        "sha256_in_prefix": "4081fe1691ce2c56bb91d8acf7754f4c0cbd77663f21990c7f8a64dc0eff98cd",
+        "size_in_bytes": 2598
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/pipeline/test_tok2vec.py",
+        "path_type": "hardlink",
+        "sha256": "d8e0ac8f3b4c3fa223fc056b8be2033b0717e62125fa591322f2b01399ae65e5",
+        "sha256_in_prefix": "d8e0ac8f3b4c3fa223fc056b8be2033b0717e62125fa591322f2b01399ae65e5",
+        "size_in_bytes": 1938
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/test_layer.py",
+        "path_type": "hardlink",
+        "sha256": "9bfda055d86f615ee82ecf0ba6ee38648624a4632d30e1d30e057561b341328e",
+        "sha256_in_prefix": "9bfda055d86f615ee82ecf0ba6ee38648624a4632d30e1d30e057561b341328e",
+        "size_in_bytes": 625
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/test_legacy.py",
+        "path_type": "hardlink",
+        "sha256": "2e9bfe0bef6912db152ba8a9ace0a5f1eeabf2c41fb08052603c615265cce6de",
+        "sha256_in_prefix": "2e9bfe0bef6912db152ba8a9ace0a5f1eeabf2c41fb08052603c615265cce6de",
+        "size_in_bytes": 861
+      },
+      {
+        "_path": "lib/python3.11/site-packages/spacy_legacy/tests/test_logger.py",
+        "path_type": "hardlink",
+        "sha256": "3a78d38dc43f66ee837f2a5cf56d36bc0b41179d4e782a8c263777d18984494f",
+        "sha256_in_prefix": "3a78d38dc43f66ee837f2a5cf56d36bc0b41179d4e782a8c263777d18984494f",
+        "size_in_bytes": 105
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "7d5e51390a8f0e23552cd097c3b90922d266673fac84d08aaffdc8a539e9a8f5",
+  "size": 40464,
+  "subdir": "osx-64",
+  "timestamp": 1678394254080,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/osx-64/spacy-legacy-3.0.9-py311hecd8cb5_0.conda",
+  "version": "3.0.9"
+}

@@ -1,0 +1,133 @@
+{
+  "build": "py311hecd8cb5_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/osx-64",
+  "constrains": [],
+  "depends": [
+    "python >=3.11,<3.12.0a0"
+  ],
+  "extracted_package_dir": "/Users/raviailani/opt/anaconda3/pkgs/pysocks-1.7.1-py311hecd8cb5_0",
+  "features": "",
+  "files": [
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/LICENSE",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/METADATA",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/RECORD",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/WHEEL",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/__pycache__/socks.cpython-311.pyc",
+    "lib/python3.11/site-packages/__pycache__/sockshandler.cpython-311.pyc",
+    "lib/python3.11/site-packages/socks.py",
+    "lib/python3.11/site-packages/sockshandler.py"
+  ],
+  "fn": "pysocks-1.7.1-py311hecd8cb5_0.conda",
+  "legacy_bz2_md5": "53bbfb400668f798eef6f8c7cf938e1f",
+  "license": "BSD 3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "/Users/raviailani/opt/anaconda3/pkgs/pysocks-1.7.1-py311hecd8cb5_0",
+    "type": 1
+  },
+  "md5": "6a9c1a311e30a9776b3297fe1480fa38",
+  "name": "pysocks",
+  "package_tarball_full_path": "/Users/raviailani/opt/anaconda3/pkgs/pysocks-1.7.1-py311hecd8cb5_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "7027e214e014eb78b7adcc1ceda5aca713a79fc4f6a0c52c9da5b3e707e6ffe9",
+        "sha256_in_prefix": "7027e214e014eb78b7adcc1ceda5aca713a79fc4f6a0c52c9da5b3e707e6ffe9",
+        "size_in_bytes": 1401
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "4538555a792bc26e1faf5213c069afaaa0d7018c47646fd6228c917504c19388",
+        "sha256_in_prefix": "4538555a792bc26e1faf5213c069afaaa0d7018c47646fd6228c917504c19388",
+        "size_in_bytes": 13237
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "27e52012681164b8cb49deab3740f528f14fd3bd8493d6401789f849838eb938",
+        "sha256_in_prefix": "27e52012681164b8cb49deab3740f528f14fd3bd8493d6401789f849838eb938",
+        "size_in_bytes": 884
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "1b5e87e00dc87a84269cead8578b9e6462928e18a95f1f3373c9eef451a5bcc0",
+        "sha256_in_prefix": "1b5e87e00dc87a84269cead8578b9e6462928e18a95f1f3373c9eef451a5bcc0",
+        "size_in_bytes": 92
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "09d84e349d75e193208a860c0111d14bc4aa3b9b9b66485734f16a49c6e73366",
+        "sha256_in_prefix": "09d84e349d75e193208a860c0111d14bc4aa3b9b9b66485734f16a49c6e73366",
+        "size_in_bytes": 85
+      },
+      {
+        "_path": "lib/python3.11/site-packages/PySocks-1.7.1.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "4ca48e21f0850682bd118f050586d8a82dcf59ddfef86d79a61f67f3e4073c39",
+        "sha256_in_prefix": "4ca48e21f0850682bd118f050586d8a82dcf59ddfef86d79a61f67f3e4073c39",
+        "size_in_bytes": 19
+      },
+      {
+        "_path": "lib/python3.11/site-packages/__pycache__/socks.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "072cea9601cb184398a70b5a2eaa55248270e12706360aa3cb4ea90b6ec1c7ab",
+        "sha256_in_prefix": "072cea9601cb184398a70b5a2eaa55248270e12706360aa3cb4ea90b6ec1c7ab",
+        "size_in_bytes": 38483
+      },
+      {
+        "_path": "lib/python3.11/site-packages/__pycache__/sockshandler.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "5a0b3f8508dc9e1abf26c9ba500d254fa9ae107daf44cf9cfa658fccd6e685a9",
+        "sha256_in_prefix": "5a0b3f8508dc9e1abf26c9ba500d254fa9ae107daf44cf9cfa658fccd6e685a9",
+        "size_in_bytes": 7250
+      },
+      {
+        "_path": "lib/python3.11/site-packages/socks.py",
+        "path_type": "hardlink",
+        "sha256": "c4e627dbbb7d206adb4c1cd6b1452e3dad1806ea6582253293390e0795798856",
+        "sha256_in_prefix": "c4e627dbbb7d206adb4c1cd6b1452e3dad1806ea6582253293390e0795798856",
+        "size_in_bytes": 31086
+      },
+      {
+        "_path": "lib/python3.11/site-packages/sockshandler.py",
+        "path_type": "hardlink",
+        "sha256": "d926068fea70b7592380ba19026c9e6845c27990d64667d54bf406ea412b1ad6",
+        "sha256_in_prefix": "d926068fea70b7592380ba19026c9e6845c27990d64667d54bf406ea412b1ad6",
+        "size_in_bytes": 3966
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "b3d0698d4dbf12ea54b44dcb66344869d1dfaa31f49a65f897facfe87f014a7e",
+  "size": 35966,
+  "subdir": "osx-64",
+  "timestamp": 1678315886516,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/osx-64/pysocks-1.7.1-py311hecd8cb5_0.conda",
+  "version": "1.7.1"
+}

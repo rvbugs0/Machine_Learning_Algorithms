@@ -412,3 +412,8 @@ if __name__ == '__main__':
             same += 1
 
     print("ACCURACY: ", same/len(yhat))
+
+
+# References
+# https://gist.github.com/Eligijus112/4c47be2f7566299bb8c4f97c107d82c6#file-best_split_rf-py
+# https://gist.github.com/Eligijus112/a28967462cd025de0d7d61dac3cb566c

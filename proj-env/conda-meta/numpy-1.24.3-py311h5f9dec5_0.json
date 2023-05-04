@@ -1,0 +1,42 @@
+{
+  "build": "py311h5f9dec5_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/osx-64",
+  "constrains": [],
+  "depends": [
+    "blas 1.0 mkl",
+    "libcxx >=14.0.6",
+    "mkl >=2021.4.0,<2022.0a0",
+    "mkl-service >=2.3.0,<3.0a0",
+    "mkl_fft",
+    "mkl_random",
+    "numpy-base 1.24.3 py311h16c7ea1_0",
+    "python >=3.11,<3.12.0a0"
+  ],
+  "extracted_package_dir": "/Users/raviailani/opt/anaconda3/pkgs/numpy-1.24.3-py311h5f9dec5_0",
+  "features": "",
+  "files": [],
+  "fn": "numpy-1.24.3-py311h5f9dec5_0.conda",
+  "legacy_bz2_md5": "8f6ce212abed6fb62723c868099a1f6b",
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "/Users/raviailani/opt/anaconda3/pkgs/numpy-1.24.3-py311h5f9dec5_0",
+    "type": 1
+  },
+  "md5": "72f5aad7792ff6fae62e9b0686bab9c4",
+  "name": "numpy",
+  "package_tarball_full_path": "/Users/raviailani/opt/anaconda3/pkgs/numpy-1.24.3-py311h5f9dec5_0.conda",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "ce4c3e36e8970f1609d2bee7a7a90f4ba6c551dcb5b85b73743bb17f24c48135",
+  "size": 12166,
+  "subdir": "osx-64",
+  "timestamp": 1682529774657,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/osx-64/numpy-1.24.3-py311h5f9dec5_0.conda",
+  "version": "1.24.3"
+}

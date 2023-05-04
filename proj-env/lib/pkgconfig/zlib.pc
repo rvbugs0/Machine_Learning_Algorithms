@@ -1,0 +1,13 @@
+prefix=/Users/raviailani/Documents/ml-assignments/proj-env
+exec_prefix=/Users/raviailani/Documents/ml-assignments/proj-env
+libdir=/Users/raviailani/Documents/ml-assignments/proj-env/lib
+sharedlibdir=/Users/raviailani/Documents/ml-assignments/proj-env/lib
+includedir=/Users/raviailani/Documents/ml-assignments/proj-env/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

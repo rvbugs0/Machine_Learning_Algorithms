@@ -1,0 +1,118 @@
+{
+  "build": "py311hecd8cb5_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/osx-64",
+  "constrains": [],
+  "depends": [
+    "python >=3.11,<3.12.0a0"
+  ],
+  "extracted_package_dir": "/Users/raviailani/opt/anaconda3/pkgs/nest-asyncio-1.5.6-py311hecd8cb5_0",
+  "features": "",
+  "files": [
+    "lib/python3.11/site-packages/__pycache__/nest_asyncio.cpython-311.pyc",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/LICENSE",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/METADATA",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/RECORD",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/WHEEL",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/nest_asyncio.py"
+  ],
+  "fn": "nest-asyncio-1.5.6-py311hecd8cb5_0.conda",
+  "legacy_bz2_md5": "013c84bb1a113cc1d5fd3a1b6d75eae0",
+  "legacy_bz2_size": 15974,
+  "license": "BSD-2-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "/Users/raviailani/opt/anaconda3/pkgs/nest-asyncio-1.5.6-py311hecd8cb5_0",
+    "type": 1
+  },
+  "md5": "8ebcd904727a34102a7adf9975bf0747",
+  "name": "nest-asyncio",
+  "package_tarball_full_path": "/Users/raviailani/opt/anaconda3/pkgs/nest-asyncio-1.5.6-py311hecd8cb5_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "lib/python3.11/site-packages/__pycache__/nest_asyncio.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "a74b9ca184f58ce4bf489937a21b03902c93ce8145edfdcd1b92d77b8d437dc4",
+        "sha256_in_prefix": "a74b9ca184f58ce4bf489937a21b03902c93ce8145edfdcd1b92d77b8d437dc4",
+        "size_in_bytes": 14196
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "bece9f68655ff23b77413246c0650386b87da7c3682303dd0ee8e3ea7630e85b",
+        "sha256_in_prefix": "bece9f68655ff23b77413246c0650386b87da7c3682303dd0ee8e3ea7630e85b",
+        "size_in_bytes": 1322
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "4aa9b98bdbf62cec809e311cbf2e8e3f1e6b36b7abbbcf588e457862bcd618e2",
+        "sha256_in_prefix": "4aa9b98bdbf62cec809e311cbf2e8e3f1e6b36b7abbbcf588e457862bcd618e2",
+        "size_in_bytes": 2730
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "07f1f90da8a21828dc89e81899d14804b12bd3b7739e62127bb590cd07e8ee88",
+        "sha256_in_prefix": "07f1f90da8a21828dc89e81899d14804b12bd3b7739e62127bb590cd07e8ee88",
+        "size_in_bytes": 819
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "1b5e87e00dc87a84269cead8578b9e6462928e18a95f1f3373c9eef451a5bcc0",
+        "sha256_in_prefix": "1b5e87e00dc87a84269cead8578b9e6462928e18a95f1f3373c9eef451a5bcc0",
+        "size_in_bytes": 92
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "6f398f90d9255005c9d8b7a17f5e0d93bc8094ec6e3833e89e8df86ad71b21d9",
+        "sha256_in_prefix": "6f398f90d9255005c9d8b7a17f5e0d93bc8094ec6e3833e89e8df86ad71b21d9",
+        "size_in_bytes": 90
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio-1.5.6.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "71014133f7cf6c37615558a15b04bedbd5a25b5ecb677af89525f2bf0173373b",
+        "sha256_in_prefix": "71014133f7cf6c37615558a15b04bedbd5a25b5ecb677af89525f2bf0173373b",
+        "size_in_bytes": 13
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nest_asyncio.py",
+        "path_type": "hardlink",
+        "sha256": "f31ba13b62b41efb3b4e0b558197e83f3d83ec8067396b6daf8540f092386ec2",
+        "sha256_in_prefix": "f31ba13b62b41efb3b4e0b558197e83f3d83ec8067396b6daf8540f092386ec2",
+        "size_in_bytes": 7779
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "fb9a357c2f1ae372148877a4bc152744887c62c09bb5bc80994a58f59306f3f4",
+  "size": 16522,
+  "subdir": "osx-64",
+  "timestamp": 1678316307287,
+  "track_features": "",
+  "url": "https://repo.anaconda.com/pkgs/main/osx-64/nest-asyncio-1.5.6-py311hecd8cb5_0.conda",
+  "version": "1.5.6"
+}
